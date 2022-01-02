@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.competition.dao.UserDao">
+
+    <select id="selectUser" parameterType="UserQuery" resultType="User">
+        select id,number,name,intro,type,email,mobile
+        from user
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="number != null">
+                AND number = #{number}
+            </if>
+            <if test="password != null">
+                AND password = #{password}
+            </if>
+            <if test="type != null">
+                AND type = #{type}
+            </if>
+        </where>
+    </select>
+
+</mapper>

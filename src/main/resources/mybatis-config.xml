@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 设置 -->
+    <settings>
+        <!-- 驼峰式命名转换 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+
+    <!-- 实体类包 -->
+    <typeAliases>
+        <package name="com.info.competition.model"/><!--最好结合@Alias注解使用-->
+    </typeAliases>
+
+</configuration>
