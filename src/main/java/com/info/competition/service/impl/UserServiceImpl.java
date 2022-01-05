@@ -18,29 +18,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserDao userDao;
 
-//    @Override
-//    public Integer login(LoginDto user) {
-//        UserQuery query = new UserQuery();
-//        query.setNumber(user.getUsername());
-//        query.setPassword(user.getPassword());
-//        query.setType(user.getType());
-//        User thisUser = userDao.selectUser(query);
-//        if (thisUser == null){
-//            return -1;
-//        }
-//        else {
-//            return thisUser.getId();
-//        }
-//    }
-//
-//    @Override
-//    public User getUserById(Integer userId) {
-//        UserQuery query = new UserQuery();
-//        query.setId(userId);
-//        User u = userDao.selectUser(query);
-//        return u;
-//    }
-
     @Override
     public Integer login(LoginDto loginDto){
         User user = userDao.selectUserByNumber(loginDto.getNumber());
@@ -65,16 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Integer userId) {
-        User user = userDao.selectUserById(userId);
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setNumber(user.getNumber());
-        userDto.setName(user.getName());
-        userDto.setMobile(user.getMobile());
-        userDto.setEmail(user.getEmail());
-        userDto.setIntro(user.getIntro());
-        userDto.setType(user.getType());
-        return userDto;
+        return userDao.selectUserById(userId);
     }
 
     @Override
@@ -84,19 +52,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getAllTeacher(){
-        List<User> teachers = userDao.selectTeacher();
-        List<UserDto> teacherList = new ArrayList<>();
-        for (User t:teachers) {
-            UserDto userdto = new UserDto();
-            userdto.setId(t.getId());
-            userdto.setNumber(t.getNumber());
-            userdto.setName(t.getName());
-            userdto.setMobile(t.getMobile());
-            userdto.setEmail(t.getEmail());
-            userdto.setIntro(t.getIntro());
-            userdto.setType(t.getType());
-            teacherList.add(userdto);
-        }
-        return teacherList;
+        return userDao.getTeacherList();
     }
 }

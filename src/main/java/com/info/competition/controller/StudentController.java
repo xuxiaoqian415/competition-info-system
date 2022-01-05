@@ -1,5 +1,6 @@
 package com.info.competition.controller;
 
+import com.info.competition.model.dto.SelectDto;
 import com.info.competition.model.Competition;
 import com.info.competition.model.dto.TeamDto;
 import com.info.competition.model.dto.UserDto;
@@ -25,8 +26,6 @@ public class StudentController {
     CompetitionService competitionService;
     @Autowired
     TeamService teamService;
-    @Autowired
-    UserService userService;
     @Autowired
     UserService userService;
     @Autowired
@@ -88,51 +87,41 @@ public class StudentController {
         }
         else{
             session.setAttribute("teamId",teamId);
-            return "student/chooseTeacher";
+            return "redirect:/student/choose";
         }
     }
 
     @GetMapping("/choose")
-    public String toChoose(HttpSession session){
+    public String toChoose(HttpSession session, Model model){
         List<UserDto> teacherList = userService.getAllTeacher();
-        session.setAttribute("teacherList",teacherList);
+        Integer teamId = (Integer) session.getAttribute("teamId");
+        model.addAttribute("teacherList",teacherList);
+        model.addAttribute("teamId",teamId);
         return "student/chooseTeacher";
     }
 
     @PostMapping("/choose")
-    public String choose(String teacher1Id,String teacher2Id,String teacher3Id,HttpSession session,Model model){
-        Integer teamId = (Integer)session.getAttribute("teamId");
-        boolean flag = true;
-        if(teacher1Id != null){
-            SelectDto selectDto = new SelectDto();
-            selectDto.setTeamId(teamId);
-            selectDto.setTeacherId(Integer.parseInt(teacher1Id));
-            if(selectService.insertSelect(selectDto) !=1){
-                flag = false;
-            }
+    public String choose(SelectDto selectDto, HttpSession session, Model model){
+        if (selectDto.getTeacher1Id() == null || selectDto.getTeacher2Id() == null || selectDto.getTeacher3Id() == null) {
+            String msg = "请选择三个老师";
+            model.addAttribute("msg", msg);
+            return toChoose(session, model);
         }
-        if(teacher2Id != null){
-            SelectDto selectDto = new SelectDto();
-            selectDto.setTeamId(teamId);
-            selectDto.setTeacherId(Integer.parseInt(teacher2Id));
-            if(selectService.insertSelect(selectDto) !=1){
-                flag = false;
-            }
+        if (selectDto.getTeacher1Id() == selectDto.getTeacher2Id() ||
+                selectDto.getTeacher1Id() == selectDto.getTeacher3Id() ||
+                selectDto.getTeacher2Id() == selectDto.getTeacher3Id()) {
+            String msg = "三个志愿不能选同样的老师";
+            model.addAttribute("msg", msg);
+            return toChoose(session, model);
         }
-        if(teacher3Id != null){
-            SelectDto selectDto = new SelectDto();
-            selectDto.setTeamId(teamId);
-            selectDto.setTeacherId(Integer.parseInt(teacher3Id));
-            if(selectService.insertSelect(selectDto) !=1){
-                flag = false;
-            }
+        if(selectService.insertSelect(selectDto) == -1){
+            String msg = "选择教师失败";
+            model.addAttribute("msg", msg);
+            return toChoose(session, model);
         }
-        if(flag){
-            return "competitionList";
-        }
-        String msg = "选择教师失败。";
-        model.addAttribute(msg);
-        return "student/chooseTeacher";
+        String msg = "选择教师成功";
+        model.addAttribute("msg", msg);
+        return toChoose(session, model);
     }
 
 }

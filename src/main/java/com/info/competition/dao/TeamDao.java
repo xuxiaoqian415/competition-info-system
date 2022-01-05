@@ -1,6 +1,7 @@
 package com.info.competition.dao;
 
 import com.info.competition.model.Team;
+import org.apache.ibatis.annotations.Param;
 
 public interface TeamDao {
     /**
@@ -11,5 +12,5 @@ public interface TeamDao {
     /**
      * 根据竞赛id与队长id查询团队id
      */
-    Integer selectTeamId(Integer cpId,Integer leaderId);
+    Integer selectTeamId(@Param("cpId") Integer cpId, @Param("leaderId") Integer leaderId);
 }

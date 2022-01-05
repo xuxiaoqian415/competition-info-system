@@ -18,7 +18,7 @@ public interface UserDao {
     /**
      * 根据Id查找用户
      */
-    User selectUserById(Integer id);
+    UserDto selectUserById(Integer id);
 
     /**
      * 根据学号或工号查询用户
@@ -48,6 +48,6 @@ public interface UserDao {
     /**
      * 查找所有老师
      */
-    List<User> selectTeacher();
+    List<UserDto> getTeacherList();
 
 }

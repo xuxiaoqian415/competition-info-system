@@ -6,7 +6,7 @@
     </sql>
 
     <insert id="insertSelect" parameterType="Select">
-        insert into select(team_id,teacher_id,select_type,flag)
-        values (#{team_id},#{teacher_id},#{select_type},#{flag})
+        insert into `select` (team_id,teacher_id,select_type,flag)
+        values (#{teamId},#{teacherId},#{selectType},#{flag})
     </insert>
 </mapper>

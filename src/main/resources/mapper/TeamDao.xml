@@ -13,18 +13,15 @@
         id,cp_id,`team_name`,leader_id,`team_intro`,`member`
     </sql>
 
-    <insert id="insertTeam" parameterType="Team" >
-        insert into team (cp_id,`team_name`,leader_id,`team_intro`,`member`)
+    <insert id="insertTeam" parameterType="Team"  useGeneratedKeys="true" keyProperty="id">
+        insert into team (cp_id,team_name,leader_id,team_intro,member)
         values (#{cpId},#{teamName},#{leaderId},#{teamIntro},#{member})
     </insert>
 
-    <select id="selectTeamId" resultType="java.lang.Integer">
-        slect id
+    <select id="selectTeamId" resultType="int">
+        select id
         from team
-        where
-        cp_id=#{cpId}
-        and
-        leader_id=#{leaderId}
+        where cp_id=#{cpId} and leader_id=#{leaderId}
     </select>
 
 </mapper>
