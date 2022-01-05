@@ -1,4 +1,4 @@
-package com.info.competition.model;
+package com.info.competition.dto;
 
 import lombok.Data;
 
@@ -6,9 +6,9 @@ import lombok.Data;
 public class LoginDto {
 
     /**
-     * 用户名
+     * 学号/工号
      */
-    private String username;
+    private String number;
 
     /**
      * 密码
