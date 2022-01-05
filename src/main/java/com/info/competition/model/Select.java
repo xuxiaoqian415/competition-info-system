@@ -15,5 +15,8 @@ public class Select {
 
     private Integer selectType;//反选
 
-    private Integer flag;//字段有效
+    /**
+     * 字段是否有效，0无效，1有效
+     */
+    private Integer flag;
 }

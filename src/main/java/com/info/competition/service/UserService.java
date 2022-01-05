@@ -22,5 +22,9 @@ public interface UserService {
      */
     List<UserDto> getStudentList();
 
+    /**
+     * 获取所有老师信息
+     */
+    List<UserDto> getAllTeacher();
 
 }

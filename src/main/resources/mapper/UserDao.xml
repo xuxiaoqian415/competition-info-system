@@ -71,6 +71,12 @@
         </set>
         where number=#{number}
     </update>
+    <select id="selectTeacher" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where type=1
+    </select>
 
     <select id="getStudentList" resultType="UserDto">
         select <include refid="Base_Column_List"/>

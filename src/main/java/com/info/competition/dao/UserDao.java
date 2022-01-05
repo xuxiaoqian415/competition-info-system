@@ -45,4 +45,9 @@ public interface UserDao {
      */
     List<UserDto> getStudentList();
 
+    /**
+     * 查找所有老师
+     */
+    List<User> selectTeacher();
+
 }

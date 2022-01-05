@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.ArrayList;
 
 
 @Service
@@ -79,5 +80,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getStudentList() {
         return userDao.getStudentList();
+    }
+
+    @Override
+    public List<UserDto> getAllTeacher(){
+        List<User> teachers = userDao.selectTeacher();
+        List<UserDto> teacherList = new ArrayList<>();
+        for (User t:teachers) {
+            UserDto userdto = new UserDto();
+            userdto.setId(t.getId());
+            userdto.setNumber(t.getNumber());
+            userdto.setName(t.getName());
+            userdto.setMobile(t.getMobile());
+            userdto.setEmail(t.getEmail());
+            userdto.setIntro(t.getIntro());
+            userdto.setType(t.getType());
+            teacherList.add(userdto);
+        }
+        return teacherList;
     }
 }
