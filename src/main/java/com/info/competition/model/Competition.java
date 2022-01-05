@@ -2,6 +2,7 @@ package com.info.competition.model;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -16,12 +17,13 @@ public class Competition {
     private String cpContent;
 
     //报名起止时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date applyStart;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date applyEnd;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     //竞赛起止时间
     private Date cpStart;
-
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date cpEnd;
 }

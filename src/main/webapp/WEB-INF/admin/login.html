@@ -43,7 +43,7 @@
         <hr class="hr15">
         <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
         <hr class="hr20" >
-        <p style="color: red" th:text = "${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+        <div style="color: red" th:text = "${msg}" th:if="${not #strings.isEmpty(msg)}"></div>
     </form>
 </div>
 

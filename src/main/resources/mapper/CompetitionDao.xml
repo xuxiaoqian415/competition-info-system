@@ -24,4 +24,10 @@
         where apply_start &lt;= #{currentTime}
         and apply_end &gt;= #{currentTime}
     </select>
+    <insert id="addCompetition" parameterType="Competition">
+        insert into competition(cp_name,cp_content,apply_start,apply_end,cp_start,cp_end)
+        values(#{cpName},#{cpContent},#{applyStart},#{applyEnd},#{cpStart},#{cpEnd})
+    </insert>
+
+
 </mapper>

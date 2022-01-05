@@ -21,6 +21,9 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public int addCompetition(Competition competition) { return competitionDao.addCompetition(competition); }
+
+    @Override
     public List<Competition> getCompetitionByApply() {
         return competitionDao.getCompetitionByApply(new Date());
     }

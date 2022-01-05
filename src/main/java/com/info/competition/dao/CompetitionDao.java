@@ -23,4 +23,7 @@ public interface CompetitionDao {
      */
     List<Competition> getCompetitionByApply(Date currentTime);
 
+    //竞赛发布
+    int addCompetition(Competition competition);
+
 }

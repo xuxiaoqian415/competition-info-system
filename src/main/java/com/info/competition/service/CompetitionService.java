@@ -16,4 +16,8 @@ public interface CompetitionService {
      */
     List<Competition> getCompetitionByApply();
 
+    /**
+     * 管理员发布竞赛
+     */
+    int addCompetition(Competition competition);
 }
