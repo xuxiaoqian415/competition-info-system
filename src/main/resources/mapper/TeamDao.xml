@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.competition.dao.TeamDao">
+    <sql id="Base_Column_List">
+        id,cp_id,`team_name`,leader_id,`team_intro`,`member`
+    </sql>
+
+    <insert id="insertTeam" parameterType="Team" >
+        insert into team (cp_id,`team_name`,leader_id,`team_intro`,`member`)
+        values (#{cpId},#{teamName},#{leaderId},#{teamIntro},#{member})
+    </insert>
+
+    <select id="selectTeamId" resultType="java.lang.Integer">
+        slect id
+        from team
+        where
+        cp_id=#{cpId}
+        and
+        leader_id=#{leaderId}
+    </select>
+
+</mapper>

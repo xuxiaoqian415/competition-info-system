@@ -2,6 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.info.competition.dao.UserDao">
 
+    <sql id="Base_Column_List">
+        id,`number`,`name`,`password`,`mobile`,`email`,`intro`,type
+    </sql>
+
     <select id="selectUser" parameterType="UserQuery" resultType="User">
         select id,number,name,intro,type,email,mobile
         from user
@@ -20,5 +24,53 @@
             </if>
         </where>
     </select>
+
+    <select id="selectUserById" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where id=#{id}
+    </select>
+
+    <select id="selectUserByNumber" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+        where number=#{number}
+    </select>
+
+    <select id="selectAll" resultType="User">
+        select
+        <include refid="Base_Column_List"/>
+        from user
+    </select>
+
+
+    <insert id="insertUser" parameterType="User">
+        insert into user (`number`,`name`,`password`,`mobile`,`email`,`intro`,`type`)
+        values (#{number},#{name},#{password},#{mobile},#{email},#{intro},#{type})
+    </insert>
+
+    <update id="updateUser" parameterType="User">
+        update user
+        <set>
+            <if test="name != null">
+                `name` = #{name}
+            </if>
+            <if test="password != null">
+                `password` = #{password}
+            </if>
+            <if test="mobile != null">
+                `mobile` = #{mobile}
+            </if>
+            <if test="email != null">
+                `email` = #{email}
+            </if>
+            <if test="intro != null">
+                `intro` = #{intro}
+            </if>
+        </set>
+        where number=#{number}
+    </update>
 
 </mapper>

@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.info.competition.dao.CompetitionDao">
+    <sql id="Base_Column_List">
+        id,`cp_name`,`cp_content`,apply_start,apply_end,cp_start,cp_end
+    </sql>
+
+    <insert id="insertCompetition" parameterType="Competition">
+        insert into competiton (`cp_name`,`cp_content`,apply_start,apply_end,cp_start,cp_end)
+        values (#{cpName},#{cpContent},#{applyStart},#{applyEnd},#{cpStart},#{cpEnd})
+    </insert>
 
     <select id="getCompetitionList" resultType="Competition">
-        select *
+        select
+        <include refid="Base_Column_List" />
         from competition
+    </select>
+
+    <select id="getCompetitionByApply" resultType="Competition">
+        select
+        <include refid="Base_Column_List" />
+        from competition
+        where apply_start &lt;= #{currentTime}
+        and apply_end &gt;= #{currentTime}
     </select>
 </mapper>

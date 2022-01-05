@@ -11,4 +11,8 @@ public interface CompetitionService {
      */
     List<Competition> getCompetitionList();
 
+    /**
+     * 获取当前时间可报名竞赛
+     */
+    List<Competition> getCompetitionByApply();
 }

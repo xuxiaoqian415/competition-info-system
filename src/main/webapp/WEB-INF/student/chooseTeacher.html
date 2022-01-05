@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>选择老师</title>
+</head>
+<body>
+    <form action="" method="post">
+        <div>
+            第一意愿：<select name="teacher1Id" style="width: 100px">
+            <option value=""></option>
+            <option th:each="t:${teacherList}" th:value="t.id" th:text="${t.name}"></option>
+            </select>
+        </div>
+        <div>
+            第二意愿：<select name="teacher2Id" style="width: 100px">
+            <option value=""></option>
+            <option th:each="t:${teacherList}" th:value="t.id" th:text="${t.name}"></option>
+            </select>
+        </div>
+        <div>
+            第三意愿：<select name="teacher3Id" style="width: 100px">
+            <option value=""></option>
+            <option th:each="t:${teacherList}" th:value="t.id" th:text="${t.name}"></option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="提交"/>
+        </div>
+    </form>
+</body>
+</html>
