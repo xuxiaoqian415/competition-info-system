@@ -1,10 +1,11 @@
 package com.info.competition.controller;
 
-import com.info.competition.dto.TeamDto;
-import com.info.competition.dto.UserDto;
 import com.info.competition.model.Competition;
+import com.info.competition.model.dto.TeamDto;
+import com.info.competition.model.dto.UserDto;
 import com.info.competition.service.CompetitionService;
 import com.info.competition.service.TeamService;
+import com.info.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,73 +24,69 @@ public class StudentController {
     CompetitionService competitionService;
     @Autowired
     TeamService teamService;
+    @Autowired
+    UserService userService;
 
     @GetMapping("/informList")
-    public String toInformList() {
+    public String toInformList(Model model) {
+        List<Competition> competitionList = competitionService.getCompetitionByApply();
+        model.addAttribute("competitionList",competitionList);
+        return "admin/informList";
+    }
 
-        return "informList";
+    @GetMapping("/competitionDetail/{id}")
+    public String toCompetitionDetail(@PathVariable("id") Integer id, Model model) {
+        Competition detail = competitionService.getCompetitionDetail(id);
+        model.addAttribute("detail",detail);
+        return "admin/competitionDetail";
     }
 
     @GetMapping("/applyList")
     public String toApplyList() {
 
-        return "applyList";
+        return "admin/applyList";
     }
 
-    @GetMapping("/competitionList")
-    public String toCpList(){
-        return  "competitionList";
+    @GetMapping("/apply/{cpId}")
+    public String toApply(@PathVariable("cpId") Integer cpId, Model model){
+        List<UserDto> studentList = userService.getStudentList();
+        model.addAttribute("cpId", cpId);
+        model.addAttribute("studentList",studentList);
+        return "admin/apply";
     }
 
-    @RequestMapping("/competitionList")
-    public String competitionList(HttpSession session){
-        List<Competition> competitionList = competitionService.getCompetitionByApply();
-        session.setAttribute("competitionList",competitionList);
-        return "competitionList";
-    }
-
-    @GetMapping("/apply")
-    public String toApply(){
-        return "apply";
-    }
-
-    @PostMapping("/apply/{cpId}")
-    public String apply(@PathVariable("cpId")Integer cpId, String teamName, String teamIntro, Integer member1Id,
-                        Integer member2Id, Integer member3Id, Integer member4Id, HttpSession session, Model model){
+    @PostMapping("/apply")
+    public String apply(TeamDto teamDto, HttpSession session, Model model){
         String msg = "";
         StringBuffer memberBuffer = new StringBuffer();
-        if(member1Id != null){
-            memberBuffer.append(member1Id);
+        if(teamDto.getMember1Id() != null){
+            memberBuffer.append(teamDto.getMember1Id() + ";");
         }
-        if(member2Id != null){
-            memberBuffer.append(member2Id);
+        if(teamDto.getMember2Id() != null){
+            memberBuffer.append(teamDto.getMember2Id() + ";");
         }
-        if(member3Id != null){
-            memberBuffer.append(member3Id);
+        if(teamDto.getMember3Id() != null){
+            memberBuffer.append(teamDto.getMember3Id() + ";");
         }
-        if(member4Id != null){
-            memberBuffer.append(member4Id);
+        if(teamDto.getMember4Id() != null){
+            memberBuffer.append(teamDto.getMember4Id() + ";");
         }
         String member = memberBuffer.toString();
-        TeamDto teamDto = new TeamDto();
-        teamDto.setCpId(cpId);
-        teamDto.setTeamName(teamName);
         teamDto.setLeaderId(((UserDto)session.getAttribute("thisUser")).getId());
-        teamDto.setTeamIntro(teamIntro);
         teamDto.setMember(member);
         if(1 == teamService.buildTeam(teamDto)){
-            return "choose";
+            return "student/chooseTeacher";
         }
         else{
             msg = "报名失败";
+            model.addAttribute("msg",msg);
+            return toApply(teamDto.getCpId(), model);
         }
-        model.addAttribute("msg",msg);
-        return "apply";
     }
 
     @GetMapping("/choose")
     public String toChoose(){
-        return "choose";
+        return "student/chooseTeacher";
     }
 
 }

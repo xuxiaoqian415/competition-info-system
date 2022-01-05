@@ -1,8 +1,10 @@
-package com.info.competition.dto;
+package com.info.competition.model.dto;
 
 import lombok.Data;
+import org.apache.ibatis.type.Alias;
 
 @Data
+@Alias("UserDto")
 public class UserDto {
     private Integer id;
     private String number;

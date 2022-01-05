@@ -1,7 +1,7 @@
 package com.info.competition.service.impl;
 
 import com.info.competition.dao.TeamDao;
-import com.info.competition.dto.TeamDto;
+import com.info.competition.model.dto.TeamDto;
 import com.info.competition.model.Team;
 import com.info.competition.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;

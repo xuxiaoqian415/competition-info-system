@@ -1,7 +1,9 @@
 package com.info.competition.service;
 
-import com.info.competition.dto.LoginDto;
-import com.info.competition.dto.UserDto;
+import com.info.competition.model.dto.LoginDto;
+import com.info.competition.model.dto.UserDto;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -14,6 +16,11 @@ public interface UserService {
      * 根据Id获取用户信息
      */
     UserDto getUserById(Integer userId);
+
+    /**
+     * 获取学生列表
+     */
+    List<UserDto> getStudentList();
 
 
 }

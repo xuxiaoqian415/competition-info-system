@@ -1,5 +1,6 @@
 package com.info.competition.dao;
 
+import com.info.competition.model.dto.UserDto;
 import com.info.competition.model.User;
 import com.info.competition.model.UserQuery;
 import org.apache.ibatis.annotations.Mapper;
@@ -38,5 +39,10 @@ public interface UserDao {
      * 用户更新
      */
     Integer updateUser(User user);
+
+    /**
+     * 获取学生列表
+     */
+    List<UserDto> getStudentList();
 
 }

@@ -1,5 +1,6 @@
 package com.info.competition.service;
 
+import com.info.competition.model.dto.CompetitionDto;
 import com.info.competition.model.Competition;
 
 import java.util.List;
@@ -20,4 +21,9 @@ public interface CompetitionService {
      * 管理员发布竞赛
      */
     int addCompetition(Competition competition);
+
+    /**
+     * 根据Id获取竞赛详情
+     */
+    Competition getCompetitionDetail(Integer id);
 }

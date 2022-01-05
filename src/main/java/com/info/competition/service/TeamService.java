@@ -1,6 +1,6 @@
 package com.info.competition.service;
 
-import com.info.competition.dto.TeamDto;
+import com.info.competition.model.dto.TeamDto;
 
 public interface TeamService {
     /**

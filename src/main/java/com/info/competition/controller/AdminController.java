@@ -22,7 +22,7 @@ public class AdminController {
 
     @GetMapping("/postCompetition")
     public String toPostCompetition() {
-        return "postCompetition";
+        return "admin/postCompetition";
     }
 
     @PostMapping("/postCompetition")
@@ -30,26 +30,26 @@ public class AdminController {
         int i=competitionService.addCompetition(competition);
         if(i==0) model.addAttribute("msg","发布失败");
         else model.addAttribute("msg","发布成功");
-        return "postCompetition";
+        return "admin/postCompetition";
     }
 
 
     @GetMapping("/accountList")
     public String toAccountList() {
 
-        return "accountList";
+        return "admin/accountList";
     }
 
     @GetMapping("/competitionList")
     public String toCompetitionList(Model model) {
         List<Competition> competitionList = competitionService.getCompetitionList();
         model.addAttribute("competitionList", competitionList);
-        return "competitionList";
+        return "admin/competitionList";
     }
 
     @GetMapping("/teamList")
     public String toTeamList() {
 
-        return "teamList";
+        return "admin/teamList";
     }
 }

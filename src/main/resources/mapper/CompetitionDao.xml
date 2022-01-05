@@ -6,11 +6,6 @@
         id,`cp_name`,`cp_content`,apply_start,apply_end,cp_start,cp_end
     </sql>
 
-    <insert id="insertCompetition" parameterType="Competition">
-        insert into competiton (`cp_name`,`cp_content`,apply_start,apply_end,cp_start,cp_end)
-        values (#{cpName},#{cpContent},#{applyStart},#{applyEnd},#{cpStart},#{cpEnd})
-    </insert>
-
     <select id="getCompetitionList" resultType="Competition">
         select
         <include refid="Base_Column_List" />
@@ -22,12 +17,19 @@
         <include refid="Base_Column_List" />
         from competition
         where apply_start &lt;= #{currentTime}
-        and apply_end &gt;= #{currentTime}
+          and apply_end &gt;= #{currentTime}
     </select>
+
     <insert id="addCompetition" parameterType="Competition">
         insert into competition(cp_name,cp_content,apply_start,apply_end,cp_start,cp_end)
         values(#{cpName},#{cpContent},#{applyStart},#{applyEnd},#{cpStart},#{cpEnd})
     </insert>
 
+    <select id="getCompetitionDetail" parameterType="int" resultType="Competition">
+        select
+        <include refid="Base_Column_List" />
+        from competition
+        where id = #{id}
+    </select>
 
 </mapper>

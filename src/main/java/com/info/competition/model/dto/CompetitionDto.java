@@ -1,4 +1,4 @@
-package com.info.competition.dto;
+package com.info.competition.model.dto;
 
 import lombok.Data;
 

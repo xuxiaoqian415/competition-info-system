@@ -1,48 +1,73 @@
 <!DOCTYPE html>
-<html  class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-        <meta charset="UTF-8">
-        <title>发布竞赛</title>
-        <meta name="renderer" content="webkit|ie-comp|ie-stand">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-        <meta http-equiv="Cache-Control" content="no-siteapp" />
-        <link rel="stylesheet" th:href="@{/static/css/font.css}">
-        <link rel="stylesheet" th:href="@{/static/css/login.css}">
-        <link rel="stylesheet" th:href="@{/static/css/xadmin.css}">
-        <script type="text/javascript" th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
-        <script th:src="@{/static/lib/layui/layui.js}" charset="utf-8"></script>
-        <!--[if lt IE 9]>
-        <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
-        <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
-        <![endif]-->
-
+    <meta charset="UTF-8">
+    <title>发布竞赛</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
 </head>
 <body>
-    <form th:action="@{/admin/postCompetition}" method="post">
-        <div>
-            竞赛名称：<input type="text" name="cpName" required/>
+    <div class="layui-fluid">
+        <div class="layui-row">
+            <h1>发布竞赛</h1>
+            <form class="layui-form" th:action="@{/admin/postCompetition}" method="post">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">竞赛名称：</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="cpName" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">内容简介：</label>
+                    <div class="layui-input-inline">
+                        <textarea name="cpContent" rows="5" cols="30" required  lay-verify="required" class="layui-input"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">报名开始时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="applyStart" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">报名结束时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="applyEnd" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">竞赛开始时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="cpStart" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">竞赛结束时间：</label>
+                    <div class="layui-input-inline">
+                        <input type="date" name="cpEnd" required  lay-verify="required" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <button class="layui-btn">立即提交</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </form>
+            <p style="color: red" th:text = "${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
         </div>
-        <div>
-            内容简介：<textarea name="cpContent" rows="5" cols="30"></textarea>
-        </div>
-        <div>
-            报名开始时间：<input type="date" name="applyStart" />
-        </div>
-        <div>
-            报名结束时间：<input type="date" name="applyEnd" />
-        </div>
-        <div>
-            竞赛开始时间：<input type="date" name="cpStart" />
-        </div>
-        <div>
-            竞赛开始时间：<input type="date" name="cpEnd" />
-        </div>
-        <div>
-            <input type="submit" value="发布"/><br/>
-            <input type="reset" value="重置"/>
-        </div>
-    </form>
-    <p style="color: red" th:text = "${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+    </div>
+    <script th:src="@{/lib/layui/layui.js}"></script>
+    <script>
+        //Demo
+        layui.use('form', function(){
+            var form = layui.form;
+
+        });
+    </script>
 </body>
 </html>

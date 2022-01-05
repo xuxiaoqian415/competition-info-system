@@ -1,4 +1,4 @@
-package com.info.competition.dto;
+package com.info.competition.model.dto;
 
 import lombok.Data;
 
@@ -10,4 +10,8 @@ public class TeamDto {
     private Integer leaderId;
     private String teamIntro;
     private String member;
+    private Integer member1Id;
+    private Integer member2Id;
+    private Integer member3Id;
+    private Integer member4Id;
 }

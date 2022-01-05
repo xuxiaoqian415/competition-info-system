@@ -1,13 +1,14 @@
 package com.info.competition.service.impl;
 
 import com.info.competition.dao.UserDao;
-import com.info.competition.dto.LoginDto;
-import com.info.competition.dto.UserDto;
+import com.info.competition.model.dto.LoginDto;
+import com.info.competition.model.dto.UserDto;
 import com.info.competition.model.User;
-import com.info.competition.model.UserQuery;
 import com.info.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -73,5 +74,10 @@ public class UserServiceImpl implements UserService {
         userDto.setIntro(user.getIntro());
         userDto.setType(user.getType());
         return userDto;
+    }
+
+    @Override
+    public List<UserDto> getStudentList() {
+        return userDao.getStudentList();
     }
 }

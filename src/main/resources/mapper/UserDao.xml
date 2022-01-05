@@ -72,4 +72,10 @@
         where number=#{number}
     </update>
 
+    <select id="getStudentList" resultType="UserDto">
+        select <include refid="Base_Column_List"/>
+        from user
+        where type = 2
+    </select>
+
 </mapper>

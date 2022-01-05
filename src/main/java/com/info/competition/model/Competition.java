@@ -19,11 +19,14 @@ public class Competition {
     //报名起止时间
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date applyStart;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date applyEnd;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+
     //竞赛起止时间
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date cpStart;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date cpEnd;
 }
