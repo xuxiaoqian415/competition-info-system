@@ -1,9 +1,10 @@
-package com.info.competition.service;
+package com.info.competition.service.impl;
 
 import com.info.competition.dao.UserDao;
-import com.info.competition.model.LoginDto;
+import com.info.competition.dto.LoginDto;
 import com.info.competition.model.User;
 import com.info.competition.model.UserQuery;
+import com.info.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package com.info.competition.controller;
 
-import com.info.competition.model.LoginDto;
+import com.info.competition.dto.LoginDto;
 import com.info.competition.model.User;
 import com.info.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

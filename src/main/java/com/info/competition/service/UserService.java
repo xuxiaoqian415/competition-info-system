@@ -1,6 +1,6 @@
 package com.info.competition.service;
 
-import com.info.competition.model.LoginDto;
+import com.info.competition.dto.LoginDto;
 import com.info.competition.model.User;
 
 public interface UserService {
