@@ -6,4 +6,10 @@
         select *
         from competition
     </select>
+    <insert id="addCompetition" parameterType="Competition">
+        insert into competition(cp_name,cp_content,apply_start,apply_end,cp_start,cp_end)
+        values(#{cpName},#{cpContent},#{applyStart},#{applyEnd},#{cpStart},#{cpEnd})
+    </insert>
+
+
 </mapper>

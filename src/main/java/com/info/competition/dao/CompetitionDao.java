@@ -10,4 +10,7 @@ public interface CompetitionDao {
 
     List<Competition> getCompetitionList();
 
+    //竞赛发布
+    int addCompetition(Competition competition);
+
 }

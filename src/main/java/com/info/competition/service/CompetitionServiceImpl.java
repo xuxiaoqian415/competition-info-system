@@ -17,4 +17,7 @@ public class CompetitionServiceImpl implements CompetitionService {
     public List<Competition> getCompetitionList() {
         return competitionDao.getCompetitionList();
     }
+
+    @Override
+    public int addCompetition(Competition competition) { return competitionDao.addCompetition(competition); }
 }
