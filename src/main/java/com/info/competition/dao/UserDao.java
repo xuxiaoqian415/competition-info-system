@@ -39,4 +39,9 @@ public interface UserDao {
      */
     Integer updateUser(User user);
 
+    /**
+     * 查找所有老师
+     */
+    List<User> selectTeacher();
+
 }

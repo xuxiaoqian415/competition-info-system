@@ -20,6 +20,9 @@ public class TeamServiceImpl implements TeamService {
         team.setLeaderId(teamDto.getLeaderId());
         team.setTeamIntro(teamDto.getTeamIntro());
         team.setMember(teamDto.getMember());
-        return teamDao.insertTeam(team);
+        if(1 == teamDao.insertTeam(team)){
+            teamDao.selectTeamId(team.getCpId(),team.getLeaderId());
+        }
+        return -1;
     }
 }

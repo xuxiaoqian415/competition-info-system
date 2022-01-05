@@ -1,10 +1,13 @@
 package com.info.competition.controller;
 
+import com.info.competition.dto.SelectDto;
 import com.info.competition.dto.TeamDto;
 import com.info.competition.dto.UserDto;
 import com.info.competition.model.Competition;
 import com.info.competition.service.CompetitionService;
+import com.info.competition.service.SelectService;
 import com.info.competition.service.TeamService;
+import com.info.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +26,11 @@ public class StudentController {
     CompetitionService competitionService;
     @Autowired
     TeamService teamService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    SelectService selectService;
+
 
     @GetMapping("/informList")
     public String toInformList() {
@@ -77,18 +85,59 @@ public class StudentController {
         teamDto.setLeaderId(((UserDto)session.getAttribute("thisUser")).getId());
         teamDto.setTeamIntro(teamIntro);
         teamDto.setMember(member);
-        if(1 == teamService.buildTeam(teamDto)){
-            return "choose";
+        Integer teamId = teamService.buildTeam(teamDto);
+        if(-1 == teamId){
+            msg = "报名失败";
+            model.addAttribute("msg",msg);
+            return "apply";
         }
         else{
-            msg = "报名失败";
+            session.setAttribute("teamId",teamId);
+            return "choose";
         }
-        model.addAttribute("msg",msg);
-        return "apply";
+
     }
 
     @GetMapping("/choose")
-    public String toChoose(){
+    public String toChoose(HttpSession session){
+        List<UserDto> teacherList = userService.getAllTeacher();
+        session.setAttribute("teacherList",teacherList);
+        return "choose";
+    }
+
+    @PostMapping("/choose")
+    public String choose(String teacher1Id,String teacher2Id,String teacher3Id,HttpSession session,Model model){
+        Integer teamId = (Integer)session.getAttribute("teamId");
+        boolean flag = true;
+        if(teacher1Id != null){
+            SelectDto selectDto = new SelectDto();
+            selectDto.setTeamId(teamId);
+            selectDto.setTeacherId(Integer.parseInt(teacher1Id));
+            if(selectService.insertSelect(selectDto) !=1){
+                flag = false;
+            }
+        }
+        if(teacher2Id != null){
+            SelectDto selectDto = new SelectDto();
+            selectDto.setTeamId(teamId);
+            selectDto.setTeacherId(Integer.parseInt(teacher2Id));
+            if(selectService.insertSelect(selectDto) !=1){
+                flag = false;
+            }
+        }
+        if(teacher3Id != null){
+            SelectDto selectDto = new SelectDto();
+            selectDto.setTeamId(teamId);
+            selectDto.setTeacherId(Integer.parseInt(teacher3Id));
+            if(selectService.insertSelect(selectDto) !=1){
+                flag = false;
+            }
+        }
+        if(flag){
+            return "competitionList";
+        }
+        String msg = "选择教师失败。";
+        model.addAttribute(msg);
         return "choose";
     }
 
