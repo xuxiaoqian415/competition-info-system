@@ -62,4 +62,9 @@ public class LoginController {
         session.invalidate();
         return "login";
     }
+
+    @RequestMapping("/test")
+    public void test() {
+        System.out.println("test");
+    }
 }
