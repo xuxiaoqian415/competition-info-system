@@ -6,9 +6,9 @@ import lombok.Data;
 public class LoginDto {
 
     /**
-     * 用户名
+     * 学号/工号
      */
-    private String username;
+    private String number;
 
     /**
      * 密码

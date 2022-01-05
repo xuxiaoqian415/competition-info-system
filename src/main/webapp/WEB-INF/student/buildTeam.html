@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>组建团队</title>
+</head>
+<body>
+    <form action="" method="post">
+        <dib>
+            团队名称：<input type="text" name="teamName"/>
+        </dib>
+        <div >
+            <div style="float:left;">团队介绍：</div>
+            <textarea name="teamIntro" rows="5" cols="30"></textarea>
+        </div>
+        <div>
+            团队成员1：
+            <select name="member1Id" style="width: 100px">
+            <option value="" selected></option>
+            <option th:each="stu:${studentList}" th:value="stu.id" th:text="${stu.name}"></option>
+            </select>
+        </div>
+        <div>
+            团队成员2：
+            <select name="member2Id" style="width: 100px">
+            <option value="" selected></option>
+            <option th:each="stu:${studentList}" th:value="stu.id" th:text="${stu.name}"></option>
+            </select>
+        </div>
+        <div>
+            团队成员3：
+            <select name="member3Id" style="width: 100px">
+            <option value="" selected></option>
+            <option th:each="stu:${studentList}" th:value="stu.id" th:text="${stu.name}"></option>
+            </select>
+        </div>
+        <div>
+            团队成员4：
+            <select name="member4Id" style="width: 100px">
+            <option value="" selected></option>
+            <option th:each="stu:${studentList}" th:value="stu.id" th:text="${stu.name}"></option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" value="提交"/>
+            <input type="reset" value="重置"/>
+        </div>
+    </form>
+</body>
+</html>
