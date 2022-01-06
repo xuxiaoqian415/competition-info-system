@@ -29,4 +29,14 @@ public interface CompetitionDao {
      */
     Competition getCompetitionDetail(@Param("id") Integer id);
 
+    /**
+     * 删除竞赛
+     */
+    Integer deleteCompetition(@Param("id")Integer id);
+
+    /**
+     * 竞赛更新
+     */
+    Integer updateCompetition(Competition competition);
+
 }

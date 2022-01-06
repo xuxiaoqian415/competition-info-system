@@ -44,4 +44,33 @@
         where id = #{id}
     </select>
 
+    <delete id="deleteCompetition" parameterType="java.lang.Integer">
+        delete from competition
+        where id = #{id}
+    </delete>
+
+    <update id="updateCompetition" parameterType="Competition">
+        update competition
+        <set>
+            <if test="cpNmae != null">
+                `cp_name` = #{cpName}
+            </if>
+            <if test="cpContent != null">
+                `cp_content` = #{cpContent}
+            </if>
+            <if test="applyStart != null">
+                apply_start = #{applyStart}
+            </if>
+            <if test="applyEnd != null">
+                apply_end = #{applyEnd}
+            </if>
+            <if test="cpStart != null">
+                cp_start = #{cpStart}
+            </if>
+            <if test="cpEnd != null">
+                cp_end = #{cpEnd}
+            </if>
+        </set>
+    </update>
+
 </mapper>

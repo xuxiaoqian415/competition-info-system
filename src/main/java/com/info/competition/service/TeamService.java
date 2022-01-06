@@ -19,4 +19,14 @@ public interface TeamService {
      * 根据id删除团队
      */
     Integer deleteTeam(Integer id);
+
+    /**
+     * 更新团队
+     */
+    Integer updateTeam(TeamDto teamDto);
+
+    /**
+     * 根据团队id查询团队
+     */
+    TeamDto getTeamById(Integer id);
 }

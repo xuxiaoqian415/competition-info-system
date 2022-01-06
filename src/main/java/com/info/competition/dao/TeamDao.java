@@ -27,4 +27,14 @@ public interface TeamDao {
      * 根据id删除团队
      */
     Integer deleteTeam(@Param("id") Integer id);
+
+    /**
+     * 团队更新
+     */
+    Integer updateTeam(Team team);
+
+    /**
+     * 根据团队id查询团队
+     */
+    Team selectTeamById(@Param("id") Integer id);
 }

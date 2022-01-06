@@ -47,4 +47,9 @@ public interface UserService {
      */
     List<UserDto> getAllUser();
 
+    /**
+     * 添加用户
+     */
+    Integer addUser(UserDto userDto);
+
 }

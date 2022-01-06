@@ -35,4 +35,22 @@ public class CompetitionServiceImpl implements CompetitionService {
     public Competition getCompetitionDetail(Integer id) {
         return competitionDao.getCompetitionDetail(id);
     }
+
+    @Override
+    public Integer deleteCompetition(Integer id) {
+        return competitionDao.deleteCompetition(id);
+    }
+
+    @Override
+    public Integer updateCompetition(CompetitionDto competitionDto) {
+        Competition competition = new Competition();
+        competition.setId(competitionDto.getId());
+        competition.setCpName(competitionDto.getCpName());
+        competition.setCpContent(competitionDto.getCpContent());
+        competition.setApplyStart(competitionDto.getApplyStart());
+        competition.setApplyEnd(competitionDto.getApplyEnd());
+        competition.setCpStart(competitionDto.getCpStart());
+        competition.setApplyEnd(competitionDto.getApplyEnd());
+        return competitionDao.updateCompetition(competition);
+    }
 }

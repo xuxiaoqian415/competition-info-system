@@ -43,4 +43,28 @@
         delete from team
         where id = #{id}
     </delete>
+
+    <update id="updateTeam" parameterType="Team">
+        update team
+        <set>
+            cp_id = #{cpId}
+            <if test="teamName != null">
+                `team_name` = #{teamName}
+            </if>
+            leader_id = #{leaderId}
+            <if test="teamIntro != null">
+                `team_intro` = #{teamIntro}
+            </if>
+            <if test="member != null">
+                `member` = #{member}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="selectTeamById" resultType="Team">
+        select
+        <include refid="Base_Column_List" />
+        from team
+        where id = #{id}
+    </select>
 </mapper>

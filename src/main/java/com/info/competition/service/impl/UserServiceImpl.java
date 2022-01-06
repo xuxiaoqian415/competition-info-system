@@ -109,4 +109,16 @@ public class UserServiceImpl implements UserService {
         Query query = new Query();
         return userDao.selectUsers(query);
     }
+
+    @Override
+    public Integer addUser(UserDto userDto){
+        User user = new User();
+        user.setNumber(userDto.getNumber());
+        user.setName(userDto.getName());
+        user.setMobile(userDto.getMobile());
+        user.setPassword(userDto.getNowpsw());
+        user.setEmail(userDto.getEmail());
+        user.setIntro(userDto.getIntro());
+        return userDao.insertUser(user);
+    }
 }

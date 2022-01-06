@@ -26,4 +26,13 @@ public interface CompetitionService {
      * 根据Id获取竞赛详情
      */
     Competition getCompetitionDetail(Integer id);
+
+    /**
+     * 删除竞赛
+     */
+    Integer deleteCompetition(Integer id);
+    /**
+     * 竞赛更新
+     */
+    Integer updateCompetition(CompetitionDto competitionDto);
 }
