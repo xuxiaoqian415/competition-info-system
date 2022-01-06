@@ -3,6 +3,8 @@ package com.info.competition.model.dto;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
+import java.util.List;
+
 @Data
 @Alias("TeamDto")
 public class TeamDto {
@@ -20,8 +22,12 @@ public class TeamDto {
 
     private String member;
 
+    private List<Integer> memberList;
+
     private Integer member1Id;
     private Integer member2Id;
     private Integer member3Id;
     private Integer member4Id;
+
+    private String memberNames;
 }

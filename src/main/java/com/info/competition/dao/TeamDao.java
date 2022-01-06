@@ -21,12 +21,17 @@ public interface TeamDao {
     /**
      * 获取所有团队信息
      */
-    List<TeamDto> selectAll(Query query);
+    List<TeamDto> selectTeamList(Query query);
 
     /**
      * 根据id删除团队
      */
     Integer deleteTeam(@Param("id") Integer id);
+
+    /**
+     * 根据cpId删除团队
+     */
+    Integer deleteTeamByCpiD(@Param("cpId") Integer cpId);
 
     /**
      * 团队更新
@@ -36,5 +41,15 @@ public interface TeamDao {
     /**
      * 根据团队id查询团队
      */
-    Team selectTeamById(@Param("id") Integer id);
+    TeamDto selectTeamById(@Param("id") Integer id);
+
+    /**
+     * 根据teamId删除原来的成员关系
+     */
+    Integer deleteStuCompByTeamId(@Param("teamId") Integer teamId);
+
+    /**
+     * 根据compId删除原来的成员关系
+     */
+    Integer deleteStuCompByCompId(@Param("compId") Integer compId);
 }

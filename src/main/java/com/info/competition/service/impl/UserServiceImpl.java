@@ -113,6 +113,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer addUser(UserDto userDto){
         User user = new User();
+        user.setType(userDto.getType());
         user.setNumber(userDto.getNumber());
         user.setName(userDto.getName());
         user.setMobile(userDto.getMobile());

@@ -11,11 +11,11 @@
         <include refid="Base_Column_List" />
         from competition
         <where>
-            <if test="startTime != null and startTime != ''">
+            <if test="startTime != null">
                 apply_end &gt;= #{startTime}
             </if>
-            <if test="endTime != null and startTime != ''">
-                apply_end &lt;= #{endTime}
+            <if test="endTime != null">
+                AND apply_end &lt;= #{endTime}
             </if>
             <if test="keyword != null and keyword != ''">
                 <bind name="_keyword" value="'%' + keyword + '%'"/>
@@ -37,7 +37,7 @@
         values(#{cpName},#{cpContent},#{applyStart},#{applyEnd},#{cpStart},#{cpEnd})
     </insert>
 
-    <select id="getCompetitionDetail" parameterType="int" resultType="Competition">
+    <select id="getCompetitionDetail" parameterType="int" resultType="CompetitionDto">
         select
         <include refid="Base_Column_List" />
         from competition
@@ -52,25 +52,45 @@
     <update id="updateCompetition" parameterType="Competition">
         update competition
         <set>
-            <if test="cpNmae != null">
-                `cp_name` = #{cpName}
+            <if test="cpName != null">
+                `cp_name` = #{cpName},
             </if>
             <if test="cpContent != null">
-                `cp_content` = #{cpContent}
+                `cp_content` = #{cpContent},
             </if>
             <if test="applyStart != null">
-                apply_start = #{applyStart}
+                apply_start = #{applyStart},
             </if>
             <if test="applyEnd != null">
-                apply_end = #{applyEnd}
+                apply_end = #{applyEnd},
             </if>
             <if test="cpStart != null">
-                cp_start = #{cpStart}
+                cp_start = #{cpStart},
             </if>
             <if test="cpEnd != null">
                 cp_end = #{cpEnd}
             </if>
         </set>
+        where id = #{id}
     </update>
+
+    <select id="getApplyList" parameterType="int" resultType="CompetitionDto">
+        select c.id as id, c.cp_name as cpName, t.id as teamId, t.team_name as teamName, u.name as leaderName
+        from student_competition sc left join competition c on sc.competition_id = c.id
+            left join team t on sc.team_id = t.id
+            left join user u on t.leader_id = u.id
+        where sc.student_id = #{id}
+    </select>
+
+    <insert id="insertStuComp" parameterType="StuComp">
+        insert into student_competition(student_id, competition_id, team_id)
+        values (#{studentId}, #{competitionId}, #{teamId})
+    </insert>
+
+    <select id="ifHaveApply" parameterType="StuComp" resultType="StuComp">
+        select *
+        from student_competition
+        where student_id = #{studentId} and competition_id = #{competitionId}
+    </select>
 
 </mapper>

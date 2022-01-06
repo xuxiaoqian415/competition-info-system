@@ -95,6 +95,11 @@
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>指导请求</cite></a>
                             </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('指导团队','/teacher/agreeList')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>指导团队</cite></a>
+                            </li>
                         </ul>
                     </li>
                     <li th:if="${thisUser.type eq 2}">
@@ -112,6 +117,11 @@
                                 <a onclick="xadmin.add_tab('已报名的竞赛','/student/applyList')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>已报名的竞赛</cite></a>
+                            </li>
+                            <li>
+                                <a onclick="xadmin.add_tab('我负责的竞赛','/student/leadTeamList')">
+                                    <i class="iconfont">&#xe6a7;</i>
+                                    <cite>我负责的竞赛</cite></a>
                             </li>
                         </ul>
                     </li>

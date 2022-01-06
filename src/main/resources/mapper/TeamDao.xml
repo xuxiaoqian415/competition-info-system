@@ -24,7 +24,7 @@
         where cp_id=#{cpId} and leader_id=#{leaderId}
     </select>
 
-    <select id="selectAll" resultType="TeamDto" parameterType="Query">
+    <select id="selectTeamList" resultType="TeamDto" parameterType="Query">
         select t.*, c.cp_name as cpName, u.name as leaderName
         from team t LEFT JOIN user u on u.id = t.leader_id
             LEFT JOIN competition c on t.cp_id= c.id
@@ -34,7 +34,7 @@
             </if>
             <if test="keyword != null and keyword != ''">
                 <bind name="_keyword" value="'%' + keyword + '%'"/>
-                AND (t.team_name LIKE #{_keyword} or t.team_intro LIKE #{_keyword})
+                AND (t.team_name LIKE #{_keyword} or c.cp_name LIKE #{_keyword})
             </if>
         </where>
     </select>
@@ -44,16 +44,19 @@
         where id = #{id}
     </delete>
 
+    <delete id="deleteTeamByCpiD" parameterType="int">
+        delete from team
+        where cp_id = #{cpId}
+    </delete>
+
     <update id="updateTeam" parameterType="Team">
         update team
         <set>
-            cp_id = #{cpId}
             <if test="teamName != null">
-                `team_name` = #{teamName}
+                `team_name` = #{teamName},
             </if>
-            leader_id = #{leaderId}
             <if test="teamIntro != null">
-                `team_intro` = #{teamIntro}
+                `team_intro` = #{teamIntro},
             </if>
             <if test="member != null">
                 `member` = #{member}
@@ -61,10 +64,22 @@
         </set>
         where id = #{id}
     </update>
-    <select id="selectTeamById" resultType="Team">
-        select
-        <include refid="Base_Column_List" />
-        from team
-        where id = #{id}
+
+    <select id="selectTeamById" resultType="TeamDto">
+        select t.*, c.cp_name as cpName, u.name as leaderName
+        from team t LEFT JOIN user u on u.id = t.leader_id
+                    LEFT JOIN competition c on t.cp_id= c.id
+        where t.id = #{id}
     </select>
+
+    <delete id="deleteStuCompByTeamId" parameterType="int">
+        delete from student_competition
+        where team_id = #{teamId}
+    </delete>
+
+    <delete id="deleteStuCompByCompId" parameterType="int">
+        delete from student_competition
+        where competition_id = #{compId}
+    </delete>
+
 </mapper>

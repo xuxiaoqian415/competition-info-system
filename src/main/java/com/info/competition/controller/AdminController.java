@@ -1,6 +1,7 @@
 package com.info.competition.controller;
 
 import com.info.competition.model.Competition;
+import com.info.competition.model.Query;
 import com.info.competition.model.dto.CompetitionDto;
 import com.info.competition.model.dto.TeamDto;
 import com.info.competition.model.dto.UserDto;
@@ -50,6 +51,27 @@ public class AdminController {
         return "admin/competitionList";
     }
 
+    @PostMapping("searchCompetition")
+    public String searchCompetition(Query query, Model model) {
+        List<Competition> competitionList = competitionService.searchCompetition(query);
+        model.addAttribute("competitionList", competitionList);
+        return "admin/competitionList";
+    }
+
+    @GetMapping("/deleteCompetition/{Id}")
+    public String deleteCompetition(@PathVariable("Id") Integer id, Model model){
+        String msg = "";
+        if(-1 == competitionService.deleteCompetition(id)){
+            msg = "删除失败!";
+            model.addAttribute("msg", msg);
+        }
+        else{
+            msg = "删除成功!";
+            model.addAttribute("msg", msg);
+        }
+        return toCompetitionList(model);
+    }
+
     @GetMapping("/userList")
     public String toUserList(Model model) {
         List<UserDto> userList = userService.getAllUser();
@@ -78,6 +100,13 @@ public class AdminController {
         return "admin/teamList";
     }
 
+    @PostMapping("/searchTeam")
+    public String searchTeam(Query query, Model model) {
+        List<TeamDto> teamList = teamService.searchTeam(query);
+        model.addAttribute("teamList",teamList);
+        return "admin/teamList";
+    }
+
     @GetMapping("/deleteTeam/{Id}")
     public String deleteTeam(@PathVariable("Id") Integer id,Model model){
         String msg = "";
@@ -93,93 +122,64 @@ public class AdminController {
     }
 
     @GetMapping("/updateCompetition/{Id}")
-    public String toUpdateCompetition(@PathVariable("Id") Integer id,Model model,HttpSession session){
-        Competition competition = competitionService.getCompetitionDetail(id);
-        session.setAttribute("thisCompetition",competition);
+    public String toUpdateCompetition(@PathVariable("Id") Integer id,Model model){
+        CompetitionDto competition = competitionService.getCompetitionDetail(id);
+        model.addAttribute("thisCompetition",competition);
         return "admin/updateCompetition";
     }
 
     @PostMapping("/updateCompetition")
-    public String updateCompetition(CompetitionDto competitionDto, HttpSession session, Model model){
+    public String updateCompetition(CompetitionDto dto, HttpSession session, Model model){
         String msg = "";
-        Integer id = ((Competition)session.getAttribute("thisCompetition")).getId();
-        competitionDto.setId(id);
-        if(competitionService.updateCompetition(competitionDto) != 1){
+        if(competitionService.updateCompetition(dto) != 1) {
             msg = "修改竞赛信息失败!";
             model.addAttribute("msg", msg);
-            return toUpdateCompetition(id,model,session);
+            return toUpdateCompetition(dto.getId(),model);
         }
-        else{
-            msg = "修改竞赛信息成功!";
-            model.addAttribute("msg", msg);
-            return toCompetitionList(model);
-        }
+        msg = "修改竞赛信息成功!";
+        model.addAttribute("msg", msg);
+        return toUpdateCompetition(dto.getId(),model);
     }
 
     @GetMapping("/updateTeam/{Id}")
-    public String toUpdateTeam(@PathVariable("Id") Integer id,Model model,HttpSession session){
+    public String toUpdateTeam(@PathVariable("Id") Integer id,Model model){
         TeamDto teamDto = teamService.getTeamById(id);
-        session.setAttribute("thisTeam",teamDto);
-        return "admin/updateCompetition";
+        List<UserDto> studentList = userService.getStudentList();
+        model.addAttribute("thisTeam",teamDto);
+        model.addAttribute("studentList",studentList);
+        return "admin/updateTeam";
     }
 
     @PostMapping("/updateTeam")
-    public String updateTeam(TeamDto teamDto, HttpSession session, Model model){
+    public String updateTeam(TeamDto dto, Model model){
         String msg = "";
-        Integer id = ((TeamDto)session.getAttribute("thisTeam")).getId();
-        teamDto.setId(id);
-        if(teamService.updateTeam(teamDto)!= 1){
+        if(teamService.updateTeam(dto)!= 1){
             msg = "修改团队信息失败!";
             model.addAttribute("msg", msg);
-            return toUpdateTeam(id,model,session);
+            return toUpdateTeam(dto.getId(),model);
         }
-        else{
-            msg = "修改团队信息成功!";
-            model.addAttribute("msg", msg);
-            return toTeamList(model);
-        }
+        msg = "修改团队信息成功!";
+        model.addAttribute("msg", msg);
+        return toUpdateTeam(dto.getId(),model);
     }
 
-    @GetMapping("/addStudent")
-    public String toAddStudent(){
-        return "admin/addStudent";
+    @GetMapping("/addUser")
+    public String toAddUser(){
+        return "admin/addUser";
     }
 
-    @GetMapping("/addTeacher")
-    public String toAddTeacher(){
-        return "admin/addTeacher";
-    }
-
-    @PostMapping("/addStudent")
-    public String addStudent(UserDto userDto,Model model){
+    @PostMapping("/addUser")
+    public String addUser(UserDto userDto,Model model){
         String msg = "";
         if(!userDto.getNowpsw().equals(userDto.getRpsw())) {
             msg = "两次密码不一致!";
             model.addAttribute("msg", msg);
-            return "admin/addStudent";
+            return "admin/addUser";
         }
-        else{
-            userService.addUser(userDto);
-            msg = "添加学生成功!";
-            model.addAttribute("msg", msg);
-        }
-        return toUserList(model);   //学生列表
-    }
-
-    @PostMapping("/addTeacher")
-    public String addTeacher(UserDto userDto,Model model){
-        String msg = "";
-        if(!userDto.getNowpsw().equals(userDto.getRpsw())) {
-            msg = "两次密码不一致!";
-            model.addAttribute("msg", msg);
-            return "admin/addTeacher";
-        }
-        else{
-            userService.addUser(userDto);
-            msg = "添加教师成功!";
-            model.addAttribute("msg", msg);
-        }
-        return  toUserList(model);  //教师列表
+        userService.addUser(userDto);
+        msg = "添加学生成功!";
+        model.addAttribute("msg", msg);
+        return "admin/addUser";
     }
 
 }

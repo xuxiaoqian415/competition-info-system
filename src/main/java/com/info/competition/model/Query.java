@@ -30,6 +30,8 @@ public class Query {
 
     private Integer leaderId;
 
+    private Integer cpId;
+
 //    private List<Integer> ids;
 
 }

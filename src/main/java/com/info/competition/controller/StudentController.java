@@ -1,6 +1,8 @@
 package com.info.competition.controller;
 
+import com.info.competition.model.StuComp;
 import com.info.competition.model.User;
+import com.info.competition.model.dto.CompetitionDto;
 import com.info.competition.model.dto.SelectDto;
 import com.info.competition.model.Competition;
 import com.info.competition.model.dto.TeamDto;
@@ -12,12 +14,10 @@ import com.info.competition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -41,15 +41,40 @@ public class StudentController {
     }
 
     @GetMapping("/competitionDetail/{id}")
-    public String toCompetitionDetail(@PathVariable("id") Integer id, Model model) {
-        Competition detail = competitionService.getCompetitionDetail(id);
+    public String toCompetitionDetail(@PathVariable("id") Integer id, @RequestParam("back") String back,
+                                      Model model, HttpSession session) {
+        CompetitionDto detail = competitionService.getCompetitionDetail(id);
+        UserDto thisUser = (UserDto) session.getAttribute("thisUser");
+        if (thisUser.getType() == 2) {
+            StuComp stuComp = new StuComp();
+            stuComp.setStudentId(thisUser.getId());
+            stuComp.setCompetitionId(id);
+            detail.setHaveApply(competitionService.ifHaveApply(stuComp));
+        }
         model.addAttribute("detail",detail);
+        if (back.equals("requestList")) {
+            model.addAttribute("back","/teacher/requestList");
+        }
+        else if (back.equals("agreeList")) {
+            model.addAttribute("back","/teacher/agreeList");
+        }
+        else if (back.equals("informList")) {
+            model.addAttribute("back","/student/informList");
+        }
+        else if (back.equals("applyList")) {
+            model.addAttribute("back","/student/applyList");
+        }
+        else if (back.equals("leadTeamList")) {
+            model.addAttribute("back","/student/leadTeamList");
+        }
         return "admin/competitionDetail";
     }
 
     @GetMapping("/applyList")
-    public String toApplyList() {
-
+    public String toApplyList(HttpSession session, Model model) {
+        UserDto thisUser = (UserDto) session.getAttribute("thisUser");
+        List<CompetitionDto> list = competitionService.getApplyList(thisUser.getId());
+        model.addAttribute("applyList",list);
         return "admin/applyList";
     }
 
@@ -64,22 +89,21 @@ public class StudentController {
     @PostMapping("/apply")
     public String apply(TeamDto teamDto, HttpSession session, Model model){
         String msg = "";
-        StringBuffer memberBuffer = new StringBuffer();
+        ArrayList<Integer> memberList = new ArrayList<>();
         if(teamDto.getMember1Id() != null){
-            memberBuffer.append(teamDto.getMember1Id() + ";");
+            memberList.add(teamDto.getMember1Id());
         }
         if(teamDto.getMember2Id() != null){
-            memberBuffer.append(teamDto.getMember2Id() + ";");
+            memberList.add(teamDto.getMember2Id());
         }
         if(teamDto.getMember3Id() != null){
-            memberBuffer.append(teamDto.getMember3Id() + ";");
+            memberList.add(teamDto.getMember3Id());
         }
         if(teamDto.getMember4Id() != null){
-            memberBuffer.append(teamDto.getMember4Id() + ";");
+            memberList.add(teamDto.getMember4Id());
         }
-        String member = memberBuffer.toString();
+        teamDto.setMemberList(memberList);
         teamDto.setLeaderId(((UserDto)session.getAttribute("thisUser")).getId());
-        teamDto.setMember(member);
         Integer teamId = teamService.buildTeam(teamDto);
         if(-1 == teamId){
             msg = "报名失败";
@@ -185,6 +209,14 @@ public class StudentController {
         model.addAttribute("msg", msg);
         session.invalidate();
         return toUpdatePsw(model);  //返回修改密码页面
+    }
+
+    @GetMapping("/leadTeamList")
+    public String toLeadTeamList(HttpSession session, Model model){
+        UserDto u=(UserDto) session.getAttribute("thisUser");
+        List<TeamDto> list = teamService.getOwnTeam(u.getId());
+        model.addAttribute("leadTeamList",list);
+        return "student/leadTeamList";
     }
 
 }

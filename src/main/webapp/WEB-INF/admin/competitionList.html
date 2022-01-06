@@ -17,17 +17,17 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="">
+                    <form class="layui-form layui-col-space5" th:action="@{/admin/searchCompetition}" method="post">
                         <div class="layui-input-inline layui-show-xs-block">
                             <input type="text" name="keyword" placeholder="搜索关键词" autocomplete="off" class="layui-input">
                         </div>
                         <label>报名结束日期：</label>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="开始日期" name="startTime" id="start">
+                            <input type="date" name="startTime" lay-verify="required" class="layui-input">
                         </div>
                         <label>至</label>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" placeholder="结束日期" name="endTime" id="end">
+                            <input type="date" name="endTime" lay-verify="required" class="layui-input">
                         </div>
                         <div class="layui-input-inline layui-show-xs-block">
                             <button class="layui-btn">
@@ -52,16 +52,17 @@
                             <td th:text="${#dates.format(c.cpStart,'yyyy-MM-dd HH:MM:SS')}"></td>
                             <td th:text="${#dates.format(c.cpEnd,'yyyy-MM-dd HH:MM:SS')}"></td>
                             <td class="td-manage">
-                                <a title="详情" href="">
-                                    <i class="layui-icon">&#xe63c;</i>查看详情
+                                <a title="编辑" th:href="@{/admin/updateCompetition/}+${c.id}">
+                                    <i class="layui-icon">&#xe63c;</i>编辑
                                 </a>&nbsp;&nbsp;&nbsp;
-                                <a title="删除" href="">
+                                <a title="删除" th:href="@{/admin/deleteCompetition/}+${c.id}">
                                     删除
                                 </a>
                             </td>
                         </tr>
                         </tbody>
                     </table>
+                    <div style="color: red" th:text = "${msg}" th:if="${not #strings.isEmpty(msg)}"></div>
                 </div>
                 <!--                <div class="layui-card-body ">-->
                 <!--                    <div class="page">-->

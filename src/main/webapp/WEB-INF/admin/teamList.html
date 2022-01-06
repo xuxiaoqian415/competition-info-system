@@ -17,7 +17,7 @@
         <div class="layui-col-md12">
             <div class="layui-card">
                 <div class="layui-card-body ">
-                    <form class="layui-form layui-col-space5" action="">
+                    <form class="layui-form layui-col-space5" th:action="@{/admin/searchTeam}" method="post">
                         <div class="layui-input-inline layui-show-xs-block">
                             <input type="text" name="keyword" placeholder="搜索关键词" autocomplete="off" class="layui-input">
                         </div>
@@ -31,7 +31,7 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>id</th><th>竞赛名称</th><th>团队名称</th><th>负责人姓名</th>
+                            <th>id</th><th>竞赛名称</th><th>团队名称</th><th>负责人姓名</th><th>成员</th>
                             <th>编辑</th>
                         </tr>
                         </thead>
@@ -41,9 +41,10 @@
                             <td th:text="${t.cpName}"></td>
                             <td th:text="${t.teamName}"></td>
                             <td th:text="${t.leaderName}"></td>
+                            <td th:text="${t.memberNames}"></td>
                             <td class="td-manage">
-                                <a title="详情" href="">
-                                    <i class="layui-icon">&#xe63c;</i>查看详情
+                                <a title="编辑" th:href="@{/admin/updateTeam/}+${t.id}">
+                                    <i class="layui-icon">&#xe63c;</i>编辑
                                 </a>&nbsp;&nbsp;&nbsp;
                                 <a title="删除" th:href="@{/admin/deleteTeam/}+${t.id}">
                                     删除

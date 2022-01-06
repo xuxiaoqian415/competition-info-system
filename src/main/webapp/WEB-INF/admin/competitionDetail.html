@@ -16,14 +16,28 @@
     <div class="layui-row layui-col-space15">
         <div class="layui-col-md12">
             <div class="layui-card">
+                <button class="layui-btn layui-btn-primary"><a th:href="${back}">返回</a></button>
                 <div class="layui-card-body">
-                    <h1>[[${detail.cpName}]]</h1>
-                    <h3>报名开始时间：[[${detail.applyStart}]]，报名结束时间[[${detail.applyEnd}]]</h3>
-                    <h3>竞赛开始时间：[[${detail.cpStart}]]，竞赛结束时间[[${detail.cpEnd}]]</h3>
-                    <p>[[${detail.cpContent}]]</p>
+                    <div style="text-align:center;margin: 5px;line-height: 40px; border: 1px solid gainsboro;">
+                        <ul style="text-align:left;border: 1px solid gainsboro; ">
+                            [[${detail.cpName}]]</ul>
+                        <ul style="text-align:left;border: 1px solid gainsboro">
+                            <h3 th:text="'报名起止时间：'+${#dates.format(detail.applyStart,'yyyy-MM-dd')}+
+                    '————'+${#dates.format(detail.applyEnd,'yyyy-MM-dd')}"></h3>
+                        </ul>
+                        <ul style="text-align:left ;border: 1px solid gainsboro">
+                            <h3 th:text="'竞赛起止时间：'+${#dates.format(detail.cpStart,'yyyy-MM-dd')}+
+                    '————'+${#dates.format(detail.cpEnd,'yyyy-MM-dd')}"></h3>
+                        </ul>
+                        <ul style="text-align:left;border: 1px solid gainsboro">
+                            [[${detail.cpContent}]]</ul>
+                    </div>
                     <div class="layui-form-item" th:if="${session.thisUser.type == 2}">
-                        <button class="layui-btn layui-btn-primary">
+                        <button class="layui-btn layui-btn-primary" th:if="${detail.haveApply == 0}">
                             <a th:href="@{/student/apply/}+${detail.id}">进入报名</a>
+                        </button>
+                        <button class="layui-btn layui-btn-primary" th:if="${detail.haveApply == 1}">
+                            您已报名该竞赛
                         </button>
                     </div>
                 </div>

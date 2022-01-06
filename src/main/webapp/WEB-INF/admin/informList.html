@@ -34,9 +34,7 @@
                         <tbody>
                         <tr th:each="c:${competitionList}">
                             <td>
-                                <a th:text="${c.cpName}" th:href="@{/student/competitionDetail/}+${c.id}"></a>
-<!--                                <a onclick="xadmin.add_tab('竞赛信息详情','/student/competitionDetail/1')">-->
-<!--                                    <cite th:text="${c.cpName}"></cite></a>-->
+                                <a th:text="${c.cpName}" th:href="@{/student/competitionDetail/}+${c.id}+'?back=informList'"></a>
                             </td>
                             <td th:text="${#dates.format(c.applyStart,'yyyy-MM-dd HH:MM:SS')}"></td>
                             <td th:text="${#dates.format(c.cpStart,'yyyy-MM-dd HH:MM:SS')}"></td>
