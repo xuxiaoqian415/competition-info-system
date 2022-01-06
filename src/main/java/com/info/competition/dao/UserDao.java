@@ -50,4 +50,9 @@ public interface UserDao {
      */
     List<UserDto> getTeacherList();
 
+    /**
+     * 根据id删除用户
+     */
+    Integer deleteUser(Integer id);
+
 }

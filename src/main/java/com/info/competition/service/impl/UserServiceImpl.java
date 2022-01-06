@@ -51,7 +51,46 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllTeacher(){
+    public List<UserDto> getTeacherList(){
         return userDao.getTeacherList();
+    }
+
+    @Override
+    public Integer updateUser(UserDto userDto) {
+        User user = new User();
+        user.setNumber(userDto.getNumber());
+        user.setName(userDto.getName());
+        user.setMobile(userDto.getMobile());
+        user.setEmail(userDto.getEmail());
+        user.setEmail(userDto.getEmail());
+        user.setIntro(userDto.getIntro());
+        if(1 == userDao.updateUser(user)){
+            return userDao.selectUserByNumber(user.getNumber()).getId();
+        }
+        return -1;
+    }
+
+    @Override
+    public Integer updatePsw(UserDto userDto) {
+        String oldpsw = userDao.selectUserByNumber(userDto.getNumber()).getPassword();
+        if(userDto.getNowpsw().equals(oldpsw)){
+            User user = new User();
+            user.setNumber(userDto.getNumber());
+            user.setPassword(userDto.getNewpsw());
+            if(1 == userDao.updateUser(user)){
+                return userDao.selectUserByNumber(user.getNumber()).getId();
+            }
+            else{
+                return -1;  //更新失败
+            }
+        }
+        else{
+            return -2;     //原密码错误
+        }
+    }
+
+    @Override
+    public Integer deleteUser(Integer id) {
+        return userDao.deleteUser(id);
     }
 }

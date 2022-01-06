@@ -93,7 +93,7 @@ public class StudentController {
 
     @GetMapping("/choose")
     public String toChoose(HttpSession session, Model model){
-        List<UserDto> teacherList = userService.getAllTeacher();
+        List<UserDto> teacherList = userService.getTeacherList();
         Integer teamId = (Integer) session.getAttribute("teamId");
         model.addAttribute("teacherList",teacherList);
         model.addAttribute("teamId",teamId);
@@ -122,6 +122,70 @@ public class StudentController {
         String msg = "选择教师成功";
         model.addAttribute("msg", msg);
         return toChoose(session, model);
+    }
+
+    @GetMapping("/updateUser")
+    public String toUpdateUser(HttpSession session, Model model){
+        return "student/updateUser";
+    }
+
+    @PostMapping("/updateUser")
+    public String UpdateUser(UserDto userDto,HttpSession session,Model model){
+        String msg = "";
+        String number = ((UserDto) session.getAttribute("thisUser")).getNumber();
+        userDto.setNumber(number);
+        Integer userId = userService.updateUser(userDto);
+        if(-1 == userId){
+            msg = "修改信息失败!";
+            model.addAttribute("msg", msg);
+            return toUpdateUser(session,model);  //返回个人信息页面?
+        }
+        else{
+            msg = "修改信息成功!";
+            UserDto thisUser = userService.getUserById(userId);
+            session.setAttribute("thisUser", thisUser);
+            model.addAttribute("msg", msg);
+            return toUpdateUser(session,model);  //返回个人信息页面?
+        }
+    }
+
+
+    @GetMapping("/updatePsw")
+    public String toUpdatePsw(HttpSession session, Model model){
+        return "student/updateUser";
+    }
+
+    @PostMapping("/updatePsw")
+    public String UpdatePsw(UserDto userDto,HttpSession session,Model model){
+        String msg = "";
+        String number = ((UserDto) session.getAttribute("thisUser")).getNumber();
+        userDto.setNumber(number);
+        if(!userDto.getNewpsw().equals(userDto.getRpsw())) {
+            msg = "两次密码不一致!";
+            model.addAttribute("msg", msg);
+            return toUpdatePsw(session,model); //返回修改密码页面
+        }
+        else {
+            Integer userId = userService.updatePsw(userDto);
+            if(-1 == userId){
+                msg = "修改密码失败!";
+                model.addAttribute("msg", msg);
+                return toUpdatePsw(session,model);  //返回修改密码页面
+
+            }
+            else if (-2 == userId){
+                msg = "原密码错误!";
+                model.addAttribute("msg", msg);
+                return toUpdatePsw(session,model);  //返回修改密码页面
+            }
+            else{
+                msg = "修改信息成功!";
+                UserDto thisUser = userService.getUserById(userId);
+                session.setAttribute("thisUser", thisUser);
+                model.addAttribute("msg", msg);
+                return "/login";  //返回登录页面
+            }
+        }
     }
 
 }

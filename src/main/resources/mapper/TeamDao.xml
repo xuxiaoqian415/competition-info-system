@@ -24,4 +24,13 @@
         where cp_id=#{cpId} and leader_id=#{leaderId}
     </select>
 
+    <select id="selectAll" resultType="com.info.competition.model.dto.TeamDto">
+        select
+        <include refid="Base_Column_List"/>
+        from team
+    </select>
+
+    <delete id="deleteTeam" parameterType="Integer">
+
+    </delete>
 </mapper>

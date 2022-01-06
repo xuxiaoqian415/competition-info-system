@@ -25,6 +25,21 @@ public interface UserService {
     /**
      * 获取所有老师信息
      */
-    List<UserDto> getAllTeacher();
+    List<UserDto> getTeacherList();
+
+    /**
+     * 更新用户
+     */
+    Integer updateUser(UserDto userDto);
+
+    /**
+     * 修改密码
+     */
+    Integer updatePsw(UserDto userDto);
+
+    /**
+     * 根据学号/工号删除用户
+     */
+    Integer deleteUser(Integer id);
 
 }

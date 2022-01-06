@@ -7,6 +7,8 @@ import com.info.competition.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TeamServiceImpl implements TeamService {
     @Autowired
@@ -25,5 +27,15 @@ public class TeamServiceImpl implements TeamService {
             return team.getId();
         }
         return -1;
+    }
+
+    @Override
+    public List<TeamDto> getAllTeam() {
+        return teamDao.selectAll();
+    }
+
+    @Override
+    public Integer deleteTeam(Integer id) {
+        return teamDao.deleteTeam(id);
     }
 }
