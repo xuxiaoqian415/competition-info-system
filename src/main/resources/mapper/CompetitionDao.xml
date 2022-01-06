@@ -6,10 +6,22 @@
         id,`cp_name`,`cp_content`,apply_start,apply_end,cp_start,cp_end
     </sql>
 
-    <select id="getCompetitionList" resultType="Competition">
+    <select id="getCompetitionList" resultType="Competition" parameterType="Query">
         select
         <include refid="Base_Column_List" />
         from competition
+        <where>
+            <if test="startTime != null and startTime != ''">
+                apply_end &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and startTime != ''">
+                apply_end &lt;= #{endTime}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                <bind name="_keyword" value="'%' + keyword + '%'"/>
+                AND (cp_name LIKE #{_keyword} or cp_content LIKE #{_keyword})
+            </if>
+        </where>
     </select>
 
     <select id="getCompetitionByApply" resultType="Competition">

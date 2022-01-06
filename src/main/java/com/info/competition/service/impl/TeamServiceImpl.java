@@ -1,6 +1,7 @@
 package com.info.competition.service.impl;
 
 import com.info.competition.dao.TeamDao;
+import com.info.competition.model.Query;
 import com.info.competition.model.dto.TeamDto;
 import com.info.competition.model.Team;
 import com.info.competition.service.TeamService;
@@ -31,11 +32,18 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public List<TeamDto> getAllTeam() {
-        return teamDao.selectAll();
+        Query query = new Query();
+        return teamDao.selectAll(query);
     }
 
     @Override
     public Integer deleteTeam(Integer id) {
-        return teamDao.deleteTeam(id);
+        Integer i;
+        try {
+            i = teamDao.deleteTeam(id);
+        } catch (Exception e) {
+            i = -1;
+        }
+        return i;
     }
 }

@@ -1,6 +1,7 @@
 package com.info.competition.service.impl;
 
 import com.info.competition.dao.UserDao;
+import com.info.competition.model.Query;
 import com.info.competition.model.dto.LoginDto;
 import com.info.competition.model.dto.UserDto;
 import com.info.competition.model.User;
@@ -9,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.ArrayList;
 
 
 @Service
@@ -58,39 +58,55 @@ public class UserServiceImpl implements UserService {
     @Override
     public Integer updateUser(UserDto userDto) {
         User user = new User();
-        user.setNumber(userDto.getNumber());
+        user.setId(userDto.getId());
         user.setName(userDto.getName());
         user.setMobile(userDto.getMobile());
         user.setEmail(userDto.getEmail());
         user.setEmail(userDto.getEmail());
         user.setIntro(userDto.getIntro());
-        if(1 == userDao.updateUser(user)){
-            return userDao.selectUserByNumber(user.getNumber()).getId();
+        Integer i;
+        try {
+            i = userDao.updateUser(user);
+        } catch (Exception e) {
+            i = -1;
         }
-        return -1;
+        return i;
     }
 
     @Override
     public Integer updatePsw(UserDto userDto) {
-        String oldpsw = userDao.selectUserByNumber(userDto.getNumber()).getPassword();
-        if(userDto.getNowpsw().equals(oldpsw)){
-            User user = new User();
-            user.setNumber(userDto.getNumber());
-            user.setPassword(userDto.getNewpsw());
-            if(1 == userDao.updateUser(user)){
-                return userDao.selectUserByNumber(user.getNumber()).getId();
-            }
-            else{
-                return -1;  //更新失败
-            }
+        Query query = new Query();
+        query.setId(userDto.getId());
+        query.setPassword(userDto.getNowpsw());
+        if (userDao.selectUser(query) == null) {
+            return -1;     // 原密码错误
         }
-        else{
-            return -2;     //原密码错误
+        User newUser = new User();
+        newUser.setId(userDto.getId());
+        newUser.setPassword(userDto.getNewpsw());
+        Integer i;
+        try {
+            i = userDao.updateUser(newUser);
+        } catch (Exception e) {
+            i = -2; // 修改密码失败
         }
+        return i;
     }
 
     @Override
     public Integer deleteUser(Integer id) {
-        return userDao.deleteUser(id);
+        Integer i;
+        try {
+            i = userDao.deleteUser(id);
+        } catch (Exception e) {
+            i = -1;
+        }
+        return i;
+    }
+
+    @Override
+    public List<UserDto> getAllUser() {
+        Query query = new Query();
+        return userDao.selectUsers(query);
     }
 }

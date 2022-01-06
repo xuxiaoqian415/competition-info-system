@@ -42,13 +42,6 @@ public class AdminController {
         return "admin/postCompetition";
     }
 
-
-    @GetMapping("/accountList")
-    public String toAccountList() {
-
-        return "admin/accountList";
-    }
-
     @GetMapping("/competitionList")
     public String toCompetitionList(Model model) {
         List<Competition> competitionList = competitionService.getCompetitionList();
@@ -56,24 +49,17 @@ public class AdminController {
         return "admin/competitionList";
     }
 
-    @GetMapping("/studentList")
-    public String toStudentList(Model model) {
-        List<UserDto> studentList = userService.getStudentList();
-        model.addAttribute("studentList",studentList);
-        return "admin/studentList";
+    @GetMapping("/userList")
+    public String toUserList(Model model) {
+        List<UserDto> userList = userService.getAllUser();
+        model.addAttribute("userList",userList);
+        return "admin/userList";
     }
 
-    @GetMapping("/teacherList")
-    public String toTeacherList(Model model) {
-        List<UserDto> teacherList = userService.getTeacherList();
-        model.addAttribute("teacherList",teacherList);
-        return "admin/teacherList";
-    }
-
-    @PostMapping("/deleteUser/{Id}")
-    public String DeleteUser(@PathVariable("Id") Integer id, Model model){
+    @GetMapping("/deleteUser/{Id}")
+    public String deleteUser(@PathVariable("Id") Integer id, Model model){
         String msg = "";
-        if(userService.deleteUser(id) !=1){
+        if(-1 == userService.deleteUser(id)){
             msg = "删除失败!";
             model.addAttribute("msg", msg);
         }
@@ -81,7 +67,7 @@ public class AdminController {
             msg = "删除成功!";
             model.addAttribute("msg", msg);
         }
-        return toStudentList(model);
+        return toUserList(model);
     }
 
     @GetMapping("/teamList")
@@ -91,10 +77,10 @@ public class AdminController {
         return "admin/teamList";
     }
 
-    @PostMapping("/deleteTeam/{Id}")
-    public String DeleteTeam(@PathVariable("Id") Integer id,Model model){
+    @GetMapping("/deleteTeam/{Id}")
+    public String deleteTeam(@PathVariable("Id") Integer id,Model model){
         String msg = "";
-        if(teamService.deleteTeam(id) !=1){
+        if(-1 == teamService.deleteTeam(id)){
             msg = "删除失败!";
             model.addAttribute("msg", msg);
         }

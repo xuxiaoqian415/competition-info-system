@@ -42,4 +42,9 @@ public interface UserService {
      */
     Integer deleteUser(Integer id);
 
+    /**
+     * 获取所有用户
+     */
+    List<UserDto> getAllUser();
+
 }

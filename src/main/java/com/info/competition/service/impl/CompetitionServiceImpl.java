@@ -1,6 +1,7 @@
 package com.info.competition.service.impl;
 
 import com.info.competition.dao.CompetitionDao;
+import com.info.competition.model.Query;
 import com.info.competition.model.dto.CompetitionDto;
 import com.info.competition.model.Competition;
 import com.info.competition.service.CompetitionService;
@@ -18,7 +19,8 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public List<Competition> getCompetitionList() {
-        return competitionDao.getCompetitionList();
+        Query query = new Query();
+        return competitionDao.getCompetitionList(query);
     }
 
     @Override

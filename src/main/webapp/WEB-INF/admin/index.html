@@ -36,9 +36,9 @@
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
                         <dd>
-                            <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                            <a onclick="xadmin.open('个人信息','/student/updateUser')">个人信息</a></dd>
                         <dd>
-                            <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                            <a onclick="xadmin.open('修改密码','/student/updatePsw')">修改密码</a></dd>
                         <dd>
                             <a th:href="@{/logout}">退出</a></dd>
                     </dl>
@@ -68,7 +68,7 @@
                                     <cite>竞赛管理</cite></a>
                             </li>
                             <li>
-                                <a onclick="xadmin.add_tab('账户管理','/admin/accountList')">
+                                <a onclick="xadmin.add_tab('账户管理','/admin/userList')">
                                     <i class="iconfont">&#xe6a7;</i>
                                     <cite>账户管理</cite></a>
                             </li>

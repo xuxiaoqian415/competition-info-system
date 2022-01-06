@@ -9,7 +9,6 @@ public class UserDto {
     private Integer id;
     private String number;
     private String name;
-    private String password;
     private String nowpsw;  //当前密码
     private String newpsw;  //新密码
     private String rpsw;    //密码确认

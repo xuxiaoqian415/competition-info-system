@@ -1,5 +1,6 @@
 package com.info.competition.dao;
 
+import com.info.competition.model.Query;
 import com.info.competition.model.dto.CompetitionDto;
 import com.info.competition.model.Competition;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,9 +12,9 @@ import java.util.List;
 @Mapper
 public interface CompetitionDao {
     /**
-     * 获取全部竞赛信息
+     * 根据条件查询全部竞赛信息
      */
-    List<Competition> getCompetitionList();
+    List<Competition> getCompetitionList(Query query);
 
     /**
      *获取当前时间内可报名的竞赛信息

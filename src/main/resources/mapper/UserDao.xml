@@ -5,7 +5,7 @@
         id,`number`,`name`,`password`,`mobile`,`email`,`intro`,type
     </sql>
 
-    <select id="selectUser" parameterType="UserQuery" resultType="User">
+    <select id="selectUser" parameterType="Query" resultType="User">
         select id,number,name,intro,type,email,mobile
         from user
         <where>
@@ -38,10 +38,19 @@
         where number=#{number}
     </select>
 
-    <select id="selectAll" resultType="User">
+    <select id="selectUsers" parameterType="Query" resultType="UserDto">
         select
         <include refid="Base_Column_List"/>
         from user
+        <where>
+            <if test="type != null">
+                type = #{type}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                <bind name="_keyword" value="'%' + keyword + '%'"/>
+                AND (name LIKE #{_keyword} or number LIKE #{_keyword})
+            </if>
+        </where>
     </select>
 
 
@@ -53,23 +62,26 @@
     <update id="updateUser" parameterType="User">
         update user
         <set>
-            <if test="name != null">
-                `name` = #{name}
+            <if test="number != null and number != ''">
+                `number` = #{number},
             </if>
-            <if test="password != null">
-                `password` = #{password}
+            <if test="name != null and name != ''">
+                `name` = #{name},
             </if>
-            <if test="mobile != null">
-                `mobile` = #{mobile}
+            <if test="password != null and password != ''">
+                `password` = #{password},
             </if>
-            <if test="email != null">
-                `email` = #{email}
+            <if test="mobile != null and mobile != ''">
+                `mobile` = #{mobile},
             </if>
-            <if test="intro != null">
+            <if test="email != null and email != ''">
+                `email` = #{email},
+            </if>
+            <if test="intro != null and intro != ''">
                 `intro` = #{intro}
             </if>
         </set>
-        where number=#{number}
+        where id = #{id}
     </update>
 
     <select id="getTeacherList" resultType="UserDto">
@@ -84,7 +96,7 @@
         where type = 2
     </select>
 
-    <delete id="deleteUser"  parameterType="java.lang.Integer">
+    <delete id="deleteUser"  parameterType="int">
         delete from user
         where id = #{id}
     </delete>

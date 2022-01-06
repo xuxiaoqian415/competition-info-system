@@ -22,25 +22,23 @@ public class SelectServiceImpl implements SelectService {
         select.setTeamId(selectDto.getTeamId());
         Integer i;
         select.setTeacherId(selectDto.getTeacher1Id());
-        selectDao.insertSelect(select);
-//        try {
-//            i = selectDao.insertSelect(select);
-//        } catch (Exception e) {
-//            i = -1;
-//        }
+        try {
+            i = selectDao.insertSelect(select);
+        } catch (Exception e) {
+            i = -1;
+        }
         select.setTeacherId(selectDto.getTeacher2Id());
-        selectDao.insertSelect(select);
-//        try {
-//            i = selectDao.insertSelect(select);
-//        } catch (Exception e) {
-//            i = -1;
-//        }
+        try {
+            i = selectDao.insertSelect(select);
+        } catch (Exception e) {
+            i = -1;
+        }
         select.setTeacherId(selectDto.getTeacher3Id());
-//        try {
-//            i = selectDao.insertSelect(select);
-//        } catch (Exception e) {
-//            i = -1;
-//        }
-        return selectDao.insertSelect(select);
+        try {
+            i = selectDao.insertSelect(select);
+        } catch (Exception e) {
+            i = -1;
+        }
+        return i;
     }
 }

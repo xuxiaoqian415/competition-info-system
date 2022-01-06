@@ -1,5 +1,6 @@
 package com.info.competition.dao;
 
+import com.info.competition.model.Query;
 import com.info.competition.model.Team;
 import com.info.competition.model.dto.TeamDto;
 import org.apache.ibatis.annotations.Param;
@@ -20,10 +21,10 @@ public interface TeamDao {
     /**
      * 获取所有团队信息
      */
-    List<TeamDto> selectAll();
+    List<TeamDto> selectAll(Query query);
 
     /**
      * 根据id删除团队
      */
-    Integer deleteTeam(Integer id);
+    Integer deleteTeam(@Param("id") Integer id);
 }
