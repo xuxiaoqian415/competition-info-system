@@ -55,6 +55,9 @@
             <if test="teamName != null">
                 `team_name` = #{teamName},
             </if>
+            <if test="leaderId != null">
+                `leader_id` = #{leaderId},
+            </if>
             <if test="teamIntro != null">
                 `team_intro` = #{teamIntro},
             </if>
@@ -80,6 +83,11 @@
     <delete id="deleteStuCompByCompId" parameterType="int">
         delete from student_competition
         where competition_id = #{compId}
+    </delete>
+
+    <delete id="deleteStuCompByStuId" parameterType="StuComp">
+        delete from student_competition
+        where student_id = #{studentId} and competition_id = #{competitionId}
     </delete>
 
 </mapper>

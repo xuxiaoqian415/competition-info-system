@@ -64,6 +64,9 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setEmail(userDto.getEmail());
         user.setIntro(userDto.getIntro());
+        if (userDto.getNumber() != null) {
+            user.setNumber(userDto.getNumber());
+        }
         Integer i;
         try {
             i = userDao.updateUser(user);
@@ -121,5 +124,11 @@ public class UserServiceImpl implements UserService {
         user.setEmail(userDto.getEmail());
         user.setIntro(userDto.getIntro());
         return userDao.insertUser(user);
+    }
+
+    @Override
+    public List<UserDto> searchUser(Query query) {
+        List<UserDto> list = userDao.selectUsers(query);
+        return list;
     }
 }

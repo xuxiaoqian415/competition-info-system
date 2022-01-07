@@ -90,7 +90,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Integer ifHaveApply(StuComp stuComp) {
-        if (competitionDao.ifHaveApply(stuComp) == null)
+        if (competitionDao.ifHaveApply(stuComp) == null || competitionDao.ifHaveApply(stuComp).size() == 0)
             return 0;
         else
             return 1;

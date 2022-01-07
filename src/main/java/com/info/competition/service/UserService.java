@@ -1,6 +1,8 @@
 package com.info.competition.service;
 
+import com.info.competition.model.Query;
 import com.info.competition.model.dto.LoginDto;
+import com.info.competition.model.dto.TeamDto;
 import com.info.competition.model.dto.UserDto;
 
 import java.util.List;
@@ -51,5 +53,10 @@ public interface UserService {
      * 添加用户
      */
     Integer addUser(UserDto userDto);
+
+    /**
+     * 根据条件查询用户列表
+     */
+    List<UserDto> searchUser(Query query);
 
 }

@@ -61,35 +61,13 @@ public class TeamServiceImpl implements TeamService {
     public List<TeamDto> getAllTeam() {
         Query query = new Query();
         List<TeamDto> list = teamDao.selectTeamList(query);
-        StringBuffer memberNames = new StringBuffer();
-        for (TeamDto t : list) {
-            String[] members = t.getMember().split(";");
-            for (String m : members) {
-                UserDto u = userDao.selectUserById(Integer.parseInt(m));
-                if (u != null) {
-                    memberNames.append(u.getName() + ",");
-                }
-            }
-            t.setMemberNames(memberNames.toString());
-        }
-        return list;
+        return getMember(list);
     }
 
     @Override
     public List<TeamDto> searchTeam(Query query) {
         List<TeamDto> list = teamDao.selectTeamList(query);
-        StringBuffer memberNames = new StringBuffer();
-        for (TeamDto t : list) {
-            String[] members = t.getMember().split(";");
-            for (String m : members) {
-                UserDto u = userDao.selectUserById(Integer.parseInt(m));
-                if (u != null) {
-                    memberNames.append(u.getName() + ",");
-                }
-            }
-            t.setMemberNames(memberNames.toString());
-        }
-        return list;
+        return getMember(list);
     }
 
     @Override
@@ -146,6 +124,76 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public Integer adminUpdateTeam(TeamDto teamDto) {
+        Team team = new Team();
+        team.setId(teamDto.getId());
+        team.setTeamName(teamDto.getTeamName());
+        team.setTeamIntro(teamDto.getTeamIntro());
+        ArrayList<Integer> memberList = new ArrayList<>();
+        StringBuffer memberBuffer = new StringBuffer();
+        if(teamDto.getMember1Id() != null){
+            memberList.add(teamDto.getMember1Id());
+            memberBuffer.append(teamDto.getMember1Id() + ";");
+        }
+        if(teamDto.getMember2Id() != null){
+            memberList.add(teamDto.getMember2Id());
+            memberBuffer.append(teamDto.getMember2Id() + ";");
+        }
+        if(teamDto.getMember3Id() != null){
+            memberList.add(teamDto.getMember3Id());
+            memberBuffer.append(teamDto.getMember3Id() + ";");
+        }
+        if(teamDto.getMember4Id() != null){
+            memberList.add(teamDto.getMember4Id());
+            memberBuffer.append(teamDto.getMember4Id() + ";");
+        }
+        // 如果改了负责人、成员都没改
+        if (teamDto.getNewLeaderId() == null && memberList.size() == 0) {
+            return teamDao.updateTeam(team);
+        }
+        StuComp stuComp = new StuComp();
+        stuComp.setCompetitionId(teamDto.getCpId());
+        stuComp.setTeamId(teamDto.getId());
+        // 如果改了负责人，没改成员
+        if (teamDto.getNewLeaderId() != null && memberList.size() == 0) {
+            team.setLeaderId(teamDto.getNewLeaderId());
+            // 删除原负责人的StuComp
+            StuComp delet = new StuComp();
+            delet.setCompetitionId(teamDto.getCpId());
+            delet.setStudentId(teamDto.getLeaderId());
+            teamDao.deleteStuCompByStuId(delet);
+            stuComp.setStudentId(teamDto.getNewLeaderId());
+            competitionDao.insertStuComp(stuComp);
+            return teamDao.updateTeam(team);
+        }
+        // 如果改了负责人，改了成员
+        if (teamDto.getNewLeaderId() != null && memberList.size() != 0) {
+            team.setLeaderId(teamDto.getNewLeaderId());
+            team.setMember(memberBuffer.toString());
+            teamDao.deleteStuCompByTeamId(teamDto.getId());
+            for (Integer mId : memberList) {
+                stuComp.setStudentId(mId);
+                competitionDao.insertStuComp(stuComp);
+            }
+            stuComp.setStudentId(teamDto.getNewLeaderId());
+            competitionDao.insertStuComp(stuComp);
+            return teamDao.updateTeam(team);
+        }
+        // 如果没改负责人，改了成员
+        if (teamDto.getNewLeaderId() == null && memberList.size() != 0) {
+            team.setMember(memberBuffer.toString());
+            teamDao.deleteStuCompByTeamId(teamDto.getId());
+            for (Integer mId : memberList) {
+                stuComp.setStudentId(mId);
+                competitionDao.insertStuComp(stuComp);
+            }
+            stuComp.setStudentId(teamDto.getLeaderId());
+            competitionDao.insertStuComp(stuComp);
+        }
+        return teamDao.updateTeam(team);
+    }
+
+    @Override
     public TeamDto getTeamById(Integer id) {
         TeamDto team = teamDao.selectTeamById(id);
         if(team.getMember() != null){
@@ -164,16 +212,24 @@ public class TeamServiceImpl implements TeamService {
         Query query= new Query();
         query.setLeaderId(id);
         List<TeamDto> list = teamDao.selectTeamList(query);
-        StringBuffer memberNames = new StringBuffer();
+        return getMember(list);
+    }
+
+    public List<TeamDto> getMember(List<TeamDto> list) {
         for (TeamDto t : list) {
-            String[] members = t.getMember().split(";");
-            for (String m : members) {
-                UserDto u = userDao.selectUserById(Integer.parseInt(m));
-                if (u != null) {
-                    memberNames.append(u.getName() + ",");
+            StringBuffer memberNames = new StringBuffer();
+            if (t.getMember() != null && !t.getMember().equals("")) {
+                String[] members = t.getMember().split(";");
+                for (String m : members) {
+                    UserDto u = userDao.selectUserById(Integer.parseInt(m));
+                    if (u != null) {
+                        memberNames.append(u.getName() + ",");
+                    }
                 }
+                t.setMemberNames(memberNames.toString());
             }
-            t.setMemberNames(memberNames.toString());
+            else
+                t.setMemberNames("");
         }
         return list;
     }

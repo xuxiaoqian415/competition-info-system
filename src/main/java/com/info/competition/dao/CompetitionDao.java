@@ -53,6 +53,6 @@ public interface CompetitionDao {
     /**
      * 查看学生是否已报名某竞赛
      */
-    StuComp ifHaveApply(StuComp stuComp);
+    List<StuComp> ifHaveApply(StuComp stuComp);
 
 }

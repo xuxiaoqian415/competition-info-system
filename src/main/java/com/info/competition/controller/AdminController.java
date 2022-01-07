@@ -79,6 +79,13 @@ public class AdminController {
         return "admin/userList";
     }
 
+    @PostMapping("/searchUser")
+    public String searchUser(Query query, Model model) {
+        List<UserDto> userList = userService.searchUser(query);
+        model.addAttribute("userList",userList);
+        return "admin/userList";
+    }
+
     @GetMapping("/deleteUser/{Id}")
     public String deleteUser(@PathVariable("Id") Integer id, Model model){
         String msg = "";
@@ -91,6 +98,29 @@ public class AdminController {
             model.addAttribute("msg", msg);
         }
         return toUserList(model);
+    }
+
+    @GetMapping("/updateUser/{userId}")
+    public String toUpdateUser(@PathVariable("userId") Integer userId, Model model){
+        UserDto thisUser = userService.getUserById(userId);
+        model.addAttribute("userInfo",thisUser);
+        return "admin/adminUpdateUser";
+    }
+
+    @PostMapping("/updateUser")
+    public String updateUser(UserDto userDto,HttpSession session,Model model){
+        String msg = "";
+        Integer flag = userService.updateUser(userDto);
+        if(-1 == flag){
+            msg = "修改信息失败!";
+            model.addAttribute("msg", msg);
+            return toUpdateUser(userDto.getId(),model);
+        }
+        msg = "修改信息成功!";
+        UserDto thisUser = userService.getUserById(userDto.getId());
+        session.setAttribute("thisUser", thisUser);
+        model.addAttribute("msg", msg);
+        return toUpdateUser(userDto.getId(),model);
     }
 
     @GetMapping("/teamList")
@@ -147,13 +177,13 @@ public class AdminController {
         List<UserDto> studentList = userService.getStudentList();
         model.addAttribute("thisTeam",teamDto);
         model.addAttribute("studentList",studentList);
-        return "admin/updateTeam";
+        return "admin/adminUpdateTeam";
     }
 
     @PostMapping("/updateTeam")
     public String updateTeam(TeamDto dto, Model model){
         String msg = "";
-        if(teamService.updateTeam(dto)!= 1){
+        if(teamService.adminUpdateTeam(dto)!= 1){
             msg = "修改团队信息失败!";
             model.addAttribute("msg", msg);
             return toUpdateTeam(dto.getId(),model);

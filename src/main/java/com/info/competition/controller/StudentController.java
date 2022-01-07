@@ -17,8 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Controller
 @RequestMapping("/student")
@@ -86,21 +85,59 @@ public class StudentController {
         return "admin/apply";
     }
 
+//    @PostMapping("/apply")
+//    public String apply(TeamDto teamDto, HttpSession session, Model model){
+//        String msg = "";
+//        ArrayList<Integer> memberList = new ArrayList<>();
+//        if(teamDto.getMember1Id() != null){
+//            memberList.add(teamDto.getMember1Id());
+//        }
+//        if(teamDto.getMember2Id() != null){
+//            memberList.add(teamDto.getMember2Id());
+//        }
+//        if(teamDto.getMember3Id() != null){
+//            memberList.add(teamDto.getMember3Id());
+//        }
+//        if(teamDto.getMember4Id() != null){
+//            memberList.add(teamDto.getMember4Id());
+//        }
+//        teamDto.setMemberList(memberList);
+//        teamDto.setLeaderId(((UserDto)session.getAttribute("thisUser")).getId());
+//        Integer teamId = teamService.buildTeam(teamDto);
+//        if(-1 == teamId){
+//            msg = "报名失败";
+//            model.addAttribute("msg",msg);
+//            return toApply(teamDto.getCpId(), model);
+//        }
+//        else{
+//            session.setAttribute("teamId",teamId);
+//            return "redirect:/student/choose";
+//        }
+//    }
+
     @PostMapping("/apply")
     public String apply(TeamDto teamDto, HttpSession session, Model model){
         String msg = "";
+        Integer id = ((UserDto)session.getAttribute("thisUser")).getId();
         ArrayList<Integer> memberList = new ArrayList<>();
+        Map<Integer,Integer> memberMap = new HashMap<>();
+        memberMap.put(id,id);
         if(teamDto.getMember1Id() != null){
-            memberList.add(teamDto.getMember1Id());
+            memberMap.put(teamDto.getMember1Id(),teamDto.getMember1Id());
         }
         if(teamDto.getMember2Id() != null){
-            memberList.add(teamDto.getMember2Id());
+            memberMap.put(teamDto.getMember2Id(),teamDto.getMember2Id());
         }
         if(teamDto.getMember3Id() != null){
-            memberList.add(teamDto.getMember3Id());
+            memberMap.put(teamDto.getMember3Id(),teamDto.getMember3Id());
         }
         if(teamDto.getMember4Id() != null){
-            memberList.add(teamDto.getMember4Id());
+            memberMap.put(teamDto.getMember4Id(),teamDto.getMember4Id());
+        }
+        memberMap.remove(id);
+        Iterator<Integer> it = memberMap.keySet().iterator();
+        while(it.hasNext()){
+            memberList.add(memberMap.get(it.next()));
         }
         teamDto.setMemberList(memberList);
         teamDto.setLeaderId(((UserDto)session.getAttribute("thisUser")).getId());
@@ -176,6 +213,27 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/updateTeam/{Id}")
+    public String toUpdateTeam(@PathVariable("Id") Integer id,Model model){
+        TeamDto teamDto = teamService.getTeamById(id);
+        List<UserDto> studentList = userService.getStudentList();
+        model.addAttribute("thisTeam",teamDto);
+        model.addAttribute("studentList",studentList);
+        return "admin/updateTeam";
+    }
+
+    @PostMapping("/updateTeam")
+    public String updateTeam(TeamDto dto, Model model){
+        String msg = "";
+        if(teamService.updateTeam(dto)!= 1){
+            msg = "修改团队信息失败!";
+            model.addAttribute("msg", msg);
+            return toUpdateTeam(dto.getId(),model);
+        }
+        msg = "修改团队信息成功!";
+        model.addAttribute("msg", msg);
+        return toUpdateTeam(dto.getId(),model);
+    }
 
     @GetMapping("/updatePsw")
     public String toUpdatePsw(Model model){

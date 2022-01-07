@@ -18,6 +18,8 @@ public class TeamDto {
     private Integer leaderId;
     private String leaderName;
 
+    private Integer newLeaderId;
+
     private String teamIntro;
 
     private String member;

@@ -33,6 +33,11 @@ public interface TeamService {
     Integer updateTeam(TeamDto teamDto);
 
     /**
+     * 更新团队
+     */
+    Integer adminUpdateTeam(TeamDto teamDto);
+
+    /**
      * 根据团队id查询团队
      */
     TeamDto getTeamById(Integer id);

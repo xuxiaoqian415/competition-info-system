@@ -1,6 +1,7 @@
 package com.info.competition.dao;
 
 import com.info.competition.model.Query;
+import com.info.competition.model.StuComp;
 import com.info.competition.model.Team;
 import com.info.competition.model.dto.TeamDto;
 import org.apache.ibatis.annotations.Param;
@@ -52,4 +53,9 @@ public interface TeamDao {
      * 根据compId删除原来的成员关系
      */
     Integer deleteStuCompByCompId(@Param("compId") Integer compId);
+
+    /**
+     * 根据stuId和竞赛id删除原来的成员关系
+     */
+    Integer deleteStuCompByStuId(StuComp stuComp);
 }

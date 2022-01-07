@@ -52,16 +52,24 @@ public class SelectServiceImpl implements SelectService {
     @Override
     public List<TeamDto> noSelectTeams(Integer id) {
         List<TeamDto> list = selectDao.noSelectTeams(id);
-        StringBuffer memberNames = new StringBuffer();
+        return getMember(list);
+    }
+
+    public List<TeamDto> getMember(List<TeamDto> list) {
         for (TeamDto t : list) {
-            String[] members = t.getMember().split(";");
-            for (String m : members) {
-                UserDto u = userDao.selectUserById(Integer.parseInt(m));
-                if (u != null) {
-                    memberNames.append(u.getName() + ",");
+            StringBuffer memberNames = new StringBuffer();
+            if (t.getMember() != null && !t.getMember().equals("")) {
+                String[] members = t.getMember().split(";");
+                for (String m : members) {
+                    UserDto u = userDao.selectUserById(Integer.parseInt(m));
+                    if (u != null) {
+                        memberNames.append(u.getName() + ",");
+                    }
                 }
+                t.setMemberNames(memberNames.toString());
             }
-            t.setMemberNames(memberNames.toString());
+            else
+                t.setMemberNames("");
         }
         return list;
     }
@@ -78,18 +86,7 @@ public class SelectServiceImpl implements SelectService {
     @Override
     public List<TeamDto> selectTeams(Integer id) {
         List<TeamDto> list = selectDao.selectTeams(id);
-        StringBuffer memberNames = new StringBuffer();
-        for (TeamDto t : list) {
-            String[] members = t.getMember().split(";");
-            for (String m : members) {
-                UserDto u = userDao.selectUserById(Integer.parseInt(m));
-                if (u != null) {
-                    memberNames.append(u.getName() + ",");
-                }
-            }
-            t.setMemberNames(memberNames.toString());
-        }
-        return list;
+        return getMember(list);
     }
 
 }

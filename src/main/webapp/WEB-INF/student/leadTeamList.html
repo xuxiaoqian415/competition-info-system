@@ -6,10 +6,10 @@
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
-    <link rel="stylesheet" th:href="@{/css/font.css}">
-    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
-    <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
-    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <link rel="stylesheet" th:href="@{/static/css/font.css}">
+    <link rel="stylesheet" th:href="@{/static/css/xadmin.css}">
+    <script th:src="@{/static/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/static/js/xadmin.js}"></script>
 </head>
 <body>
 <div class="layui-fluid">
@@ -32,7 +32,7 @@
                             <td th:text="${t.leaderName}"></td>
                             <td th:text="${t.memberNames}"></td>
                             <td class="td-manage">
-                                <a th:href="@{/admin/updateTeam/}+${t.id}">编辑团队</a>
+                                <a th:href="@{/student/updateTeam/}+${t.id}">编辑团队</a>
                             </td>
                         </tr>
                         </tbody>
