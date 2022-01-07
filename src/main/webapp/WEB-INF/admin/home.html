@@ -25,9 +25,29 @@
           <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
             <li class="layui-col-md2 layui-col-xs6">
               <a href="javascript:;" class="x-admin-backlog-body">
-                <h3>userId</h3>
+                <h3 th:if="${session.thisUser.type eq 0}">工号</h3>
+                <h3 th:if="${session.thisUser.type eq 1}">工号</h3>
+                <h3 th:if="${session.thisUser.type eq 2}">学号</h3>
                 <p>
-                  <cite>[[${session.thisUser.id}]]</cite></p>
+                  <cite>[[${session.thisUser.number}]]</cite></p>
+              </a>
+            </li>
+            <li class="layui-col-md2 layui-col-xs6">
+              <a href="javascript:;" class="x-admin-backlog-body">
+                <h3>姓名</h3>
+                <p>
+                  <cite>[[${session.thisUser.name}]]</cite></p>
+              </a>
+            </li>
+            <li class="layui-col-md2 layui-col-xs6">
+              <a href="javascript:;" class="x-admin-backlog-body">
+                <h3>类型</h3>
+                <p th:if="${session.thisUser.type eq 0}">
+                  <cite>管理员</cite></p>
+                <p th:if="${session.thisUser.type eq 1}">
+                  <cite>教师</cite></p>
+                <p th:if="${session.thisUser.type eq 2}">
+                  <cite>学生</cite></p>
               </a>
             </li>
           </ul>
