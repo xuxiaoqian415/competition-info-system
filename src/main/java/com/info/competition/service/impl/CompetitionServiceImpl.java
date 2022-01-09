@@ -7,6 +7,7 @@ import com.info.competition.model.Query;
 import com.info.competition.model.StuComp;
 import com.info.competition.model.dto.CompetitionDto;
 import com.info.competition.model.Competition;
+import com.info.competition.model.dto.SelectDto;
 import com.info.competition.model.dto.TeamDto;
 import com.info.competition.service.CompetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,19 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public List<CompetitionDto> getApplyList(Integer id) {
-        return competitionDao.getApplyList(id);
+        List<CompetitionDto> list = competitionDao.getApplyList(id);
+        for (CompetitionDto c : list) {
+            Integer teamId = c.getTeamId();
+            List<SelectDto> teachers = selectDao.getTeacherByTeamId(teamId);
+            if (teachers!=null && teachers.size()!=0) {
+                c.setHaveChoose(1);
+                c.setTeacherName(teachers.get(0).getTeacherName());
+            }
+            else {
+                c.setHaveChoose(0);
+            }
+        }
+        return list;
     }
 
     @Override

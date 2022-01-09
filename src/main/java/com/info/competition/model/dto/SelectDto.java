@@ -9,6 +9,7 @@ public class SelectDto {
     private Integer teamId;
 
     private Integer teacherId;
+    private String teacherName;
 
     /**
      * 是否被反选 0未反选 1被反选

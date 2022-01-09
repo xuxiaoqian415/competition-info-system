@@ -23,6 +23,12 @@ public class CompetitionDto {
      */
     private Integer haveApply;
 
+    /**
+     * 0待处理 1老师已选
+     */
+    private Integer haveChoose;
+    private String teacherName;
+
     //报名起止时间
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date applyStart;

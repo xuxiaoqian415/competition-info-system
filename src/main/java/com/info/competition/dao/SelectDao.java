@@ -1,6 +1,7 @@
 package com.info.competition.dao;
 
 import com.info.competition.model.Select;
+import com.info.competition.model.dto.SelectDto;
 import com.info.competition.model.dto.TeamDto;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,5 +40,10 @@ public interface SelectDao {
      * 根据teamId删除选择关系
      */
     Integer deleteByTeamId(@Param("teamId") Integer teamId);
+
+    /**
+     * 根据teamId查找老师选择情况
+     */
+    List<SelectDto> getTeacherByTeamId(@Param("teamId") Integer teamId);
 
 }

@@ -50,5 +50,10 @@
         where team_id = #{teamId}
     </delete>
 
+    <select id="getTeacherByTeamId" parameterType="int" resultType="SelectDto">
+        select s.*, u.name as teacherName
+        from `select` s left join user u on u.id = s.teacher_id
+        where team_id = #{teamId} and select_type = 1
+    </select>
 
 </mapper>

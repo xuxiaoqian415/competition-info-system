@@ -20,7 +20,7 @@
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>竞赛名称</th><th>团队名称</th><th>负责人</th>
+                            <th>竞赛名称</th><th>团队名称</th><th>负责人</th><th>指导老师</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -32,6 +32,8 @@
                                 <a th:text="${a.teamName}" href=""></a>
                             </td>
                             <td th:text="${a.leaderName}"></td>
+                            <td th:if="${a.haveChoose eq 0}">待老师处理</td>
+                            <td th:if="${a.haveChoose eq 1}" th:text="${a.teacherName}"></td>
                         </tr>
                         </tbody>
                     </table>
